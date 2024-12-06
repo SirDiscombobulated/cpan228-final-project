@@ -29,7 +29,7 @@ public class ItemService {
 
     // Save an item
     public int saveItem(Item item) {
-        if (item.getPrice() >= 20) {
+        if (item.getPrice() >= 0) {
             itemRepository.save(item);
             return 1; // Success
         }
