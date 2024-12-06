@@ -1,4 +1,4 @@
-package com.humber.FinalProjectCPAN228.models;
+package com.humber.backend.models;
 
 import org.springframework.data.annotation.Id; // Correct import for MongoDB
 import lombok.AllArgsConstructor;

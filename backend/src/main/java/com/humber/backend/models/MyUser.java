@@ -1,4 +1,4 @@
-package com.humber.FinalProjectCPAN228.models;
+package com.humber.backend.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
