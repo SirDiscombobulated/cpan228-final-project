@@ -2,72 +2,69 @@ package com.humber.backend.controllers;
 
 import com.humber.backend.models.Item;
 import com.humber.backend.services.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@Controller
-@RequestMapping("/store") //base path
+@RestController
+@RequestMapping("/store/api")
 public class ItemController {
 
+    //dependency injection
     private final ItemService itemService;
 
-    @Autowired
-    public ItemController(ItemService itemService){
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
-    @Value("${STORE_NAME}")
-    private String storeName;
-
-    @Value("${PAGE_SIZE}")
-    private int pageSize;
-
-    @GetMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("rName", storeName);
-        String logoPath = "static/css/images/logo2.PNG";
-        model.addAttribute("logoPath", logoPath);
-        return "home";
+    //get all items
+    @GetMapping("/items")
+    public ResponseEntity<List<Item>> getAllItems() {
+        return ResponseEntity.ok(itemService.getAllItems());
     }
 
-    @GetMapping("/index/{pageNo}")
-    public String menu(Model model,
-                       @RequestParam(required = false) String searchedCategory,
-                       @RequestParam(required = false) Double searchedPrice,
-                       @RequestParam(required = false) String success,
-                       @RequestParam(required = false) String fail,
-                       @PathVariable int pageNo,
-                       @RequestParam(required = false, defaultValue = "id") String sortField,
-                       @RequestParam(required = false, defaultValue = "asc") String sortDirection) {
-        // Handle filtering logic
-        if (searchedCategory != null && searchedPrice != null) {
-            List<Item> filteredItems = itemService.getFilteredItems(searchedCategory, searchedPrice);
-            model.addAttribute("items", filteredItems);
-            model.addAttribute(!filteredItems.isEmpty() ? "success" : "fail",
-                    !filteredItems.isEmpty() ? "Success! Items have been filtered!" : "No records found.");
-        } else {
-            // Add success or failure messages
-            model.addAttribute(success != null ? "success" : "fail", success != null ? success : fail);
+    //get an item by id
+    @GetMapping("/items/{id}")
+    public ResponseEntity<Item> getItemById(@PathVariable String id) {
+        return ResponseEntity.ok(itemService.getItemById(id));
+    }
 
-            // Add pagination data
-            Page<Item> page = itemService.getPaginatedItems(pageNo, pageSize, sortField, sortDirection);
-
-            model.addAttribute("items", page.getContent());
-            model.addAttribute("totalPages", page.getTotalPages());
-            model.addAttribute("currentPage", pageNo);
-            model.addAttribute("totalItems", page.getTotalElements());
-
-            // Add sorting details
-            model.addAttribute("sortField", sortField);
-            model.addAttribute("sortDirection", sortDirection);
-            model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+    //add an item
+    @PostMapping("/items")
+    public ResponseEntity<String> addItem(@RequestBody Item item) {
+        try {
+            int statusCode = itemService.addItem(item);
+            if (statusCode == -1) {
+                return ResponseEntity.badRequest().body("Error: Price must be greater than 0!");
+            }
+        } catch(IllegalStateException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
-        return "index";
+        return ResponseEntity.ok("Item added successfully!");
+    }
+
+    //delete an item
+    @DeleteMapping("items/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable String id) {
+        try {
+            itemService.deleteById(id);
+        } catch(IllegalStateException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+        return ResponseEntity.ok("Item deleted successfully!");
+
+    }
+
+    //update item
+    @PutMapping("items/{id}")
+    public ResponseEntity<String> updateItem(@PathVariable String id, @RequestBody Item item) {
+        try {
+            itemService.updateItem(id, item);
+        } catch(IllegalStateException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+        return ResponseEntity.ok("Dish updated successfully!");
     }
 }
