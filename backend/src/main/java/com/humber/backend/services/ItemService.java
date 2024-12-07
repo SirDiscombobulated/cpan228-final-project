@@ -15,42 +15,33 @@ import java.util.Optional;
 @Service
 public class ItemService {
 
+    //dependency injection
     private final ItemRepository itemRepository;
-
     @Autowired
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
 
-    // Get all items
+    // get all items
     public List<Item> getAllItems() {
         return itemRepository.findAll();
     }
 
-    // Save an item
-    public int saveItem(Item item) {
-        if (item.getPrice() >= 0) {
-            itemRepository.save(item);
-            return 1; // Success
+    // get an item by ID
+    public Item getItemById(String id) {
+        return itemRepository.findById(id).orElse(null);
+    }
+
+    // add an item
+    public int addItem(Item item) {
+        if (item.getPrice() <= 0) {
+            return -1; // fail: price too low
         }
-        return -1; // Error: price too low
+        itemRepository.save(item);
+        return 1; // success
     }
 
-    // Find by category and price
-    public List<Item> getFilteredItems(String category, Double price) {
-        return itemRepository.findByIgnoreCaseCategoryAndPrice(category, price);
-    }
-
-    // Delete an item by ID
-    public int deleteById(String id) {
-        if (itemRepository.existsById(id)) {
-            itemRepository.deleteById(id);
-            return 1; // Success
-        }
-        return -1; // Failure: item not found
-    }
-
-    // Update an item
+    // update an item
     public void updateItem(String itemId, Item item) {
         boolean dishExists = itemRepository.existsById(itemId);
         if (!dishExists) {
@@ -60,12 +51,21 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-    // Get an item by ID
-    public Optional<Item> getItemById(String id) {
-        return itemRepository.findById(id);
+    // delete an item by ID
+    public void deleteById(String itemId) {
+        boolean itemExists = itemRepository.existsById(itemId);
+        if(!itemExists) {
+            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Delete failed!");
+        }
+        itemRepository.deleteById(itemId);
     }
 
-    // Paginate records
+    // find by category and price
+    public List<Item> getFilteredItems(String category, Double price) {
+        return itemRepository.findByIgnoreCaseCategoryAndPrice(category, price);
+    }
+
+    // paginate records
     public Page<Item> getPaginatedItems(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/store/api")
-public class RestController {
+public class ItemController {
 
     //dependency injection
     private final ItemService itemService;
 
-    public RestController(ItemService itemService) {
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
@@ -25,24 +25,27 @@ public class RestController {
         return ResponseEntity.ok(itemService.getAllItems());
     }
 
-    //get item by id
+    //get an item by id
     @GetMapping("/items/{id}")
-    public ResponseEntity<Optional<Item>> getItemById(@PathVariable String id) {
+    public ResponseEntity<Item> getItemById(@PathVariable String id) {
         return ResponseEntity.ok(itemService.getItemById(id));
     }
 
-    //save item
+    //add an item
     @PostMapping("/items")
     public ResponseEntity<String> addItem(@RequestBody Item item) {
         try {
-            itemService.saveItem(item);
+            int statusCode = itemService.addItem(item);
+            if (statusCode == -1) {
+                return ResponseEntity.badRequest().body("Error: Price must be greater than 0!");
+            }
         } catch(IllegalStateException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
         return ResponseEntity.ok("Item added successfully!");
     }
 
-    //delete item
+    //delete an item
     @DeleteMapping("items/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable String id) {
         try {
