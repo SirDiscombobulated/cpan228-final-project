@@ -58,7 +58,7 @@ public class RestController {
     @PutMapping("items/{id}")
     public ResponseEntity<String> updateItem(@PathVariable String id, @RequestBody Item item) {
         try {
-            itemService.updateItem(item);
+            itemService.updateItem(id, item);
         } catch(IllegalStateException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
