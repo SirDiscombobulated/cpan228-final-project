@@ -51,7 +51,12 @@ public class ItemService {
     }
 
     // Update an item
-    public void updateItem(Item item) {
+    public void updateItem(String itemId, Item item) {
+        boolean dishExists = itemRepository.existsById(itemId);
+        if (!dishExists) {
+            throw new IllegalStateException("Dish with " + itemId + " doesn't exists! Update failed!");
+        }
+        item.setId(itemId);
         itemRepository.save(item);
     }
 
