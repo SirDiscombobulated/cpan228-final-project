@@ -5,65 +5,59 @@ import com.humber.backend.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-public class AuthController implements org.springframework.boot.web.servlet.error.ErrorController {
+import java.util.HashMap;
+import java.util.Map;
 
+@RestController
+//ErrorController is no longer needed because we are sending a response body
+public class AuthController {
+
+    // dependency injection
     private final UserService userService;
-
-    @Value("${STORE_NAME}")
-    private String storeName;
-
     public AuthController(UserService userService) {
         this.userService = userService;
     }
 
-    // Custom error endpoint
-    @GetMapping("/error")
-    public String handleError() {
-        return "auth/error";
-    }
+    // store name
+    @Value("${STORE_NAME}")
+    private String storeName;
 
-    // Custom login endpoint
+    // returns a response body indicating whether the login is successful (or not) as well as the storeName
     @GetMapping("/login")
-    public String login(Model model,
-                        @RequestParam(required = false) String success,
-                        @RequestParam(required = false) String fail) {
-        model.addAttribute(success != null ? "success" : "fail", success != null ? success : fail);
-        model.addAttribute("storeName", storeName);
-        return "auth/login";
+    public ResponseEntity<Map<String, Object>> login(@RequestParam(required = false) String message) {
+        Map<String, Object> res = new HashMap<>();
+        res.put("message", message);
+        res.put("storeName", storeName);
+        return ResponseEntity.ok(res);
     }
 
-    // Custom logout endpoint
+    // custom logout endpoint
     @GetMapping("/logout")
-    public String customLogout(HttpServletRequest req, HttpServletResponse res, Authentication auth) {
-        // Perform the logout logic
+    public ResponseEntity<Map<String, Object>> customLogout(HttpServletRequest req, HttpServletResponse res, Authentication auth) {
         new SecurityContextLogoutHandler().logout(req, res, auth);
-        return "redirect:/login?success=You have been logged out!";
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "You have been logged out");
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/register")
-    public String register(Model model, @RequestParam(required = false) String message) {
-        model.addAttribute("message", message);
-        model.addAttribute("user", new MyUser());
-        return "auth/register";
+    public ResponseEntity<Map<String, Object>> register(@RequestParam(required = false) String message) {
+        Map<String, Object> res = new HashMap<>();
+        res.put("user", new MyUser());
+        res.put("message", message);
+        return ResponseEntity.ok(res);
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") MyUser user) {
-        int saveUserCode = userService.saveUser(user);
-        if (saveUserCode == 0) {
-            return "redirect:/error";
-        } else {
-            return "redirect:/login?success=Registration successful!";
-        }
+    public ResponseEntity<Map<String, Object>> register(@RequestBody MyUser myUser) {
+        int saveUserCode = userService.saveUser(myUser);
+        Map<String, Object> res = new HashMap<>();
+        res.put("saveUserCode", saveUserCode);
+        return ResponseEntity.ok(res);
     }
 }
