@@ -4,18 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -26,31 +20,25 @@ public class SecurityConfig {
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowCredentials(true);
-        configuration.addAllowedHeader("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
     //Security filter chain - rules for the application
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF entirely
+        http.csrf(csrf -> csrf.disable()) // Disable CSRF entirely
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/store/home/**","/login","/register/**").permitAll()
-                        .requestMatchers("/store/index/**", "/store/api/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/store/home/**", "/store/api/**","/login","/register/**").permitAll()
+                        .requestMatchers("/store/index/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/store/ADMIN/**").hasRole("ADMIN")
                         .anyRequest().authenticated()//Any other request must be authenticated
                 )
-                .cors(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                            httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
+                        }
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        //                       .logoutSuccessUrl("/restaurant/home")
+                        .permitAll());
+
         return http.build();
     }
 
@@ -62,6 +50,12 @@ public class SecurityConfig {
         return provider;
     }
 
+    @Bean
+    public WebSecurityCustomizer ignoreResources(){
+        return (webSecurity) -> webSecurity
+                .ignoring()
+                .requestMatchers("/css/**", "/h2-console/**");
+    }
     //password encoder
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
