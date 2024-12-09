@@ -15,43 +15,40 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-public SecurityConfig(UserDetailsService userDetailsService) {
-    this.userDetailsService = userDetailsService;
-}
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
     //Security filter chain - rules for the application
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/store/home/**","/login","register/**").permitAll()
+        http.csrf(csrf -> csrf.disable()) // Disable CSRF entirely
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/store/home/**", "/store/api/**","/login","/register/**").permitAll()
                         .requestMatchers("/store/index/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/store/ADMIN/**").hasRole("ADMIN")
                         .anyRequest().authenticated()//Any other request must be authenticated
                 )
                 .formLogin(httpSecurityFormLoginConfigurer -> {
-                    httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
+                            httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
                         }
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
- //                       .logoutSuccessUrl("/restaurant/home")
+                        //                       .logoutSuccessUrl("/restaurant/home")
                         .permitAll());
 
         return http.build();
     }
 
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
-          DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-          provider.setUserDetailsService(userDetailsService);
-          provider.setPasswordEncoder(passwordEncoder());
-    return provider;
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
     }
-
-
-
 
     @Bean
     public WebSecurityCustomizer ignoreResources(){
