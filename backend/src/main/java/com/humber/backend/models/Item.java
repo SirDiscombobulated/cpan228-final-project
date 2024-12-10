@@ -22,6 +22,6 @@ public class Item {
     private String description;
     private LocalDateTime createdAt;
     private String status;
-    private int ownerId;
+    private String ownerId;
     private List<String> interested;
 }
