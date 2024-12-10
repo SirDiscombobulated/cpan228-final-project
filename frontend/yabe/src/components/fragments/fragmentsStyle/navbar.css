@@ -1,0 +1,104 @@
+.navbar {
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-right: 20px; /* Space between logo and search bar */
+}
+
+.navbar .navbar-nav .nav-link {
+    color: black !important;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: 20px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: #74bf4e !important;
+    transform: translateY(-2px);
+}
+
+.navbar .navbar-toggler {
+    border-color: #ffffff;
+}
+
+.navbar .navbar-toggler-icon {
+    background-color: #ffffff;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.search-bar {
+    display: flex;
+    flex-grow: 1;
+    align-items: center; /* Align the search bar and button vertically */
+}
+
+.search-input {
+    width: 100%;
+    height: 40px; /* Set height to match the button */
+    padding: 0.5rem; /* Adjust padding */
+    font-size: 1rem;
+}
+
+.search-button {
+    padding: 0.5rem 1rem;
+    height: 40px; /* Set height to match the input */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background-color: #74bf4e; /* Example background color */
+    color: white;
+    border: none;
+    cursor: pointer;
+
+}
+
+.search-button i {
+    margin-left: 0.5rem; /* Add space between text and icon */
+}
+
+/* Adjust the layout on mobile */
+@media (max-width: 991px) {
+    .navbar-nav {
+        margin-top: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-nav .nav-link {
+        margin-left: 0;
+        padding: 10px 15px;
+        width: 100%;
+        text-align: left;
+    }
+
+    .search-bar {
+        flex-direction: column; /* Stack the search input and button on smaller screens */
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .search-input {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 575px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}

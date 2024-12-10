@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Stock = () => {
-    const [dishes, setDishes] = useState([]);
+    const [items, setItems] = useState([]);
     const [success, setSuccess] = useState(null);
     const [fail, setFail] = useState(null);
     const [searchedCategory, setSearchedCategory] = useState('');
@@ -15,9 +15,9 @@ const Stock = () => {
     const [sortDirection, setSortDirection] = useState('asc');
 
     useEffect(() => {
-        const fetchDishes = async () => {
+        const fetchItems = async () => {
             try {
-                const response = await axios.get(`/store/menu/${currentPage}`, {
+                const response = await axios.get(`/store/api/items/${currentPage}`, {
                     params: {
                         searchedCategory,
                         searchedPrice,
@@ -25,14 +25,14 @@ const Stock = () => {
                         sortDirection
                     }
                 });
-                setDishes(response.data.dishes);
+                setItems(response.data.items);
                 setTotalItems(response.data.totalItems);
                 setTotalPages(response.data.totalPages);
             } catch (error) {
                 console.error(error);
             }
         };
-        fetchDishes();
+        fetchItems();
     }, [currentPage, searchedCategory, searchedPrice, sortField, sortDirection]);
 
     const handleSearch = (e) => {
@@ -71,7 +71,7 @@ const Stock = () => {
                     />
                     <button type="submit" className="btn btn-primary">Filter</button>
                     <button type="button" onClick={handleReset} className="btn btn-primary">Reset</button>
-                    <Link to="/store/add-dish" className="btn btn-danger">Add</Link>
+                    <Link to="/store/add-item" className="btn btn-danger">Add</Link>
                 </form>
                 <table className="table table-dark">
                     <thead>
@@ -124,19 +124,19 @@ const Stock = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {dishes.map((dish) => (
-                        <tr key={dish.id}>
-                            <th scope="row">{dish.id}</th>
-                            <td>{dish.name}</td>
-                            <td>{dish.category}</td>
-                            <td>{dish.price}</td>
+                    {items.map((item) => (
+                        <tr key={item.id}>
+                            <th scope="row">{item.id}</th>
+                            <td>{item.name}</td>
+                            <td>{item.category}</td>
+                            <td>{item.price}</td>
                             <td>
-                                <Link to={`/store/delete/${dish.id}`} className="btn btn-danger btn-sm">
+                                <Link to={`/store/delete/${item.id}`} className="btn btn-danger btn-sm">
                                     Delete
                                 </Link>
                             </td>
                             <td>
-                                <Link to={`/store/update/${dish.id}`} className="btn btn-danger btn-sm">
+                                <Link to={`/store/update/${item.id}`} className="btn btn-danger btn-sm">
                                     Update
                                 </Link>
                             </td>
@@ -150,7 +150,7 @@ const Stock = () => {
             {totalPages > 0 && (
                 <div className="pagination">
                     <div className="pagination-info">
-                        <div>Total Dishes: {totalItems}</div>
+                        <div>Total Items: {totalItems}</div>
                         <div>Current Page: {currentPage}</div>
                         <div>Total Pages: {totalPages}</div>
                     </div>
