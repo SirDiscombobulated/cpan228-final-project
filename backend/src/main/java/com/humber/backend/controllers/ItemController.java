@@ -45,7 +45,7 @@ public class ItemController {
     }
 
     //delete an item
-    @DeleteMapping("items/{id}")
+    @DeleteMapping("/items/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable String id) {
         try {
             itemService.deleteById(id);
@@ -57,7 +57,7 @@ public class ItemController {
     }
 
     //update item
-    @PutMapping("items/{id}")
+    @PutMapping("/items/{id}")
     public ResponseEntity<String> updateItem(@PathVariable String id, @RequestBody Item item) {
         try {
             itemService.updateItem(id, item);
