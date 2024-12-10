@@ -19,8 +19,8 @@ const HomePage = ({ sName }) => {
                             <p className="card-text">
                                 Become a supervillain by stealing our food!
                             </p>
-                            <a href="/store/menu/1" className="btn btn-primary">
-                                Menu
+                            <a href="/store/stock/1" className="btn btn-primary">
+                                Stock
                             </a>
                         </div>
                     </div>
