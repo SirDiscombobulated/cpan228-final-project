@@ -52,8 +52,7 @@ public class ItemService {
 
     // delete an item by ID
     public void deleteById(String itemId) {
-        boolean itemExists = itemRepository.existsById(itemId);
-        if(!itemExists) {
+        if(!itemRepository.existsById(itemId)) {
             throw new IllegalStateException("Item with " + itemId + " doesn't exists! Delete failed!");
         }
         itemRepository.deleteById(itemId);
