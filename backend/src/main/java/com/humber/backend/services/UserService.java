@@ -1,4 +1,5 @@
 package com.humber.backend.services;
+
 import com.humber.backend.models.MyUser;
 import com.humber.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,18 +8,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service //Needed to make this a bean
+@Service
 public class UserService {
-
+    private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    //constructor injection
-    @Autowired //Not necessary unless you are using multiple constructor injections
-    //Intellij is smart enough to know a single constructor injection
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    @Autowired
+    public UserService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    public boolean authenticate(String username, String password) {
+        MyUser user = userRepository.findByUsername(username);
+        return user != null && passwordEncoder.matches(password, user.getPassword());
+    }
+
+    public MyUser addUser(MyUser user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     public List<MyUser> getUsers() {
@@ -29,12 +37,7 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public MyUser addUser(MyUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    public MyUser updateUser (MyUser user) {
+    public MyUser updateUser(MyUser user) {
         return userRepository.save(user);
     }
 
