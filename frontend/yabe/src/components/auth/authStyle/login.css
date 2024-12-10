@@ -1,0 +1,129 @@
+body {
+    background-color: #f4f6f9; /* Light gray background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center the login container */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    padding: 0 20px;
+}
+
+/* Styling for the login form */
+.login-form {
+    background-color: white;
+    padding: 3rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Heading Style */
+.login-form h1 {
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Input field styling */
+.login-input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    border: 1px solid #d1d3e2;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.login-input:focus {
+    border-color: #5a9e3b; /* Green border on focus */
+    background-color: #fff;
+    outline: none;
+}
+
+/* Button styling */
+.login-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    background-color: #74bf4e; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-button:hover {
+    background-color: #5a9e3b;
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Link styling for the register page */
+.login-link {
+    margin-top: 1.5rem;
+}
+
+.login-link a {
+    color: #74bf4e;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #4e7a27; /* Darker green on hover */
+}
+
+/* Error and Success messages */
+.alert {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.alert-info {
+    background-color: #d9f7be;
+    color: #3c763d;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+    .login-form {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-input {
+        font-size: 0.95rem;
+    }
+
+    .login-button {
+        font-size: 1rem;
+    }
+
+    .login-link a {
+        font-size: 0.9rem;
+    }
+}
