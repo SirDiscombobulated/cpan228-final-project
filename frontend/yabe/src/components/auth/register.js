@@ -44,7 +44,7 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: '#f5f7fa' }}>
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
             <div className="main bg-white p-4 shadow rounded" style={{ width: '100%', maxWidth: '400px' }}>
                 <h1 className="text-primary">Registration</h1>
 
