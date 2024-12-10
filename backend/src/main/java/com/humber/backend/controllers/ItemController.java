@@ -18,11 +18,14 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+
+
     //get all items
     @GetMapping("/items")
     public ResponseEntity<List<Item>> getAllItems() {
         return ResponseEntity.ok(itemService.getAllItems());
     }
+
 
     //get an item by id
     @GetMapping("/items/{id}")
