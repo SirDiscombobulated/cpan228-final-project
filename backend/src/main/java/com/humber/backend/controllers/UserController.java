@@ -1,3 +1,4 @@
+//UserController
 package com.humber.backend.controllers;
 
 import com.humber.backend.models.MyUser;
@@ -5,15 +6,15 @@ import com.humber.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController // Use @RestController instead of @Controller
 public class UserController {
 
     private final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -43,5 +44,21 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable("id") String id) {
         userService.deleteUser(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody MyUser user) {
+        // Add login logic here
+        boolean isAuthenticated = userService.authenticate(user.getUsername(), user.getPassword());
+        if (isAuthenticated) {
+            return ResponseEntity.ok("Login Successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<String> handleGetLogin() {
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("GET method is not supported for /login");
     }
 }
