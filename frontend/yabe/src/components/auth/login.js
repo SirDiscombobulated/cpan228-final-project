@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import './authStyle/login.css'; // Assuming this is where your styles are defined
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -34,16 +34,9 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh'}}>
-            <div className="main bg-white p-4 shadow rounded" style={{ width: '100%', maxWidth: '400px' }}>
+        <div className="login-container">
+            <div className="main bg-white p-4 shadow rounded">
                 <h1 className="text-primary">Log In To Store</h1>
-
-                {/* Message Display */}
-                {message && (
-                    <div className={`alert ${error ? 'alert-danger' : 'alert-info'}`} role="alert">
-                        {message}
-                    </div>
-                )}
 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
@@ -77,6 +70,13 @@ const LoginPage = () => {
                     <button type="submit" className="btn btn-primary w-100">
                         Log in
                     </button>
+            
+                    {/* Message Display */}
+                    {message && (
+                    <div className={`alert ${error ? 'alert-danger' : 'alert-info'}`} role="alert">
+                        {message}
+                     </div>
+                    )}
 
                     {/* Register Link */}
                     <div className="alert">
@@ -84,9 +84,9 @@ const LoginPage = () => {
                             Register
                         </a>
                     </div>
-                </form>
+                    
+                </form></div>
             </div>
-        </div>
     );
 };
 
