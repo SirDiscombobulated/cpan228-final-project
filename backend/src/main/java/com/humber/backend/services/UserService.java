@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service //Needed to make this a bean
 public class UserService {
 
@@ -19,17 +21,24 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    //save the user to the database (i.e., registration)
-    // 0 - user already exists, 1 - user saved successfully
-    public int saveUser (MyUser user) {
-        //check if the user exists in the database
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            return 0;
-        }
-        //encrypt the password
+    public List<MyUser> getUsers() {
+        return userRepository.findAll();
+    }
+
+    public MyUser getUser(String id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public MyUser addUser(MyUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        //save the user to the database
-        userRepository.save(user);
-        return 1;
+        return userRepository.save(user);
+    }
+
+    public MyUser updateUser (MyUser user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
     }
 }

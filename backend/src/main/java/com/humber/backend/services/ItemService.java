@@ -44,7 +44,7 @@ public class ItemService {
     public void updateItem(String itemId, Item item) {
         boolean dishExists = itemRepository.existsById(itemId);
         if (!dishExists) {
-            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Update failed!");
+            throw new IllegalStateException("Dish with " + itemId + " doesn't exists! Update failed!");
         }
         item.setId(itemId);
         itemRepository.save(item);

@@ -9,10 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Document(collection = "items")
+@Data //automatically generates common methods for the class (i.e., getters, setters, toString(), equals(), hashCode())
+@NoArgsConstructor //automatically generates a no-argument constructor for this class
+@AllArgsConstructor //automatically generates a constructor with one parameter for each field of this class
+@Document(collection = "items") //marks this class as a MongoDB document
 public class Item {
     @Id
     private String id;
@@ -22,6 +22,6 @@ public class Item {
     private String description;
     private LocalDateTime createdAt;
     private String status;
-    private int ownerId;
+    private String ownerId;
     private List<String> interested;
 }
