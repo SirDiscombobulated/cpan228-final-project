@@ -2,86 +2,109 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Items Page</title>
+    <title>Menu Page</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
+</head>
 <body>
-<main>
-    <header th:include="@{/fragments/header.html}"></header>
-    <br>
-    <div class="content">
-        <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
-        <div class="alert alert-danger" th:if="${fail}" th:text="${fail}"></div>
+    <main>
+        <header th:include="@{/fragments/header.html}"></header>
+        <br>
+        <div class="content">
+            <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+            <div class="alert alert-danger" th:if="${fail}" th:text="${fail}"></div>
 
-        <form th:action="@{/store/menu/1}" method="get">
-            <input class="search" type="text" name="searchedCategory" placeholder="Enter a category"/>
-            <input class="search" type="number" name="searchedPrice" placeholder="Enter a price"/>
-            <button type="submit" class="btn btn-primary">Filter</button>
-            <a class="btn btn-primary" th:href="@{/store/menu/1}">Reset</a>
-            <a class="btn btn-danger" th:href="@{/store/add-item}">Add</a>
-        </form>
-
-        <table class="table table-dark">
-            <thead>
-            <tr>
-                <th scope="col">
-                    <a th:href="@{'/store/menu/' + ${currentPage} + '?sortField=id&&sortDirection=' + ${reverseSortDirection}}">ID</a>
-                </th>
-                <th scope="col">Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                <th scope="col">Created At</th>
-                <th scope="col">Status</th>
-                <th scope="col">Owner ID</th>
-                <th scope="col">Interested Users</th>
-                <th scope="col" colspan="2">Operations</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item : ${items}">
-                <th scope="row" th:text="${item.id}"></th>
-                <td th:text="${item.name}"></td>
-                <td th:text="${item.category}"></td>
-                <td th:text="${item.price}"></td>
-                <td th:text="${item.description}"></td>
-                <td th:text="${item.createdAt}"></td>
-                <td th:text="${item.status}"></td>
-                <td th:text="${item.ownerId}"></td>
-                <td>
-                    <ul>
-                        <li th:each="user : ${item.interested}" th:text="${user}"></li>
-                    </ul>
-                </td>
-                <td>
-                    <a th:href="@{/store/delete/{id} (id=${item.id})}" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-                <td>
-                    <a th:href="@{/store/update/{id} (id=${item.id})}" class="btn btn-warning btn-sm">Update</a>
-                </td>
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
-
-    <!-- Pagination Info -->
-    <div class="pagination" th:if="${totalPages}">
-        <div class="pagination-info">
-            <div>Total Items: <span th:text="${totalItems}"></span></div>
-            <div>Current Page: <span th:text="${currentPage}"></span></div>
-            <div>Total Pages: <span th:text="${totalPages}"></span></div>
+            <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img th:src="@{/css/images/1.PNG}" class="d-block w-100" alt="Image 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img th:src="@{/css/images/2.PNG}" class="d-block w-100" alt="Image 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img th:src="@{/css/images/3.PNG}" class="d-block w-100" alt="Image 3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+<br>
+            <form th:action="@{/store/menu/1}" method="get">
+                <input class="search" type="text" name="searchedCategory" placeholder="Enter a category"/>
+                <input class="search" name="searchedPrice" placeholder="Enter a price"/>
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a class="btn btn-primary" th:href="@{/store/menu/1}">Reset</a>
+                <a class="btn btn-danger" th:href="@{/store/add-dish}">Add</a>
+            </form>
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <!--/restaurant/menu/1/?sortField=id&&sortDirection=reverseSortDirection-->
+                    <th scope="col">
+                        <a th:href="@{'/store/menu/' + ${currentPage} + '?sortField=id&&sortDirection=' + ${reverseSortDirection}}">ID</a>
+                    </th>
+                    <th scope="col">
+                        <a th:href="@{'/store/menu/' + ${currentPage} + '?sortField=name&&sortDirection=' + ${reverseSortDirection}}">NAME</a>
+                    </th>
+                    <th scope="col">
+                        <a th:href="@{'/store/menu/' + ${currentPage} + '?sortField=category&&sortDirection=' + ${reverseSortDirection}}">CATEGORY</a>
+                    </th>
+                    <th scope="col">
+                        <a th:href="@{'/store/menu/' + ${currentPage} + '?sortField=price&&sortDirection=' + ${reverseSortDirection}}">PRICE</a>
+                    </th>
+                    <th scope="col" colspan="2">Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dish:${dishes}">
+                    <th scope="row" th:text="${dish.id}"></th>
+                    <td th:text="${dish.name}"></td>
+                    <td th:text="${dish.category}"></td>
+                    <td th:text="${dish.price}"></td>
+                    <td>
+                        <a th:href="@{/store/delete/{id} (id=${dish.id}) }" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/store/update/{id} (id=${dish.id}) }" class="btn btn-danger btn-sm">Update</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="pagination-no">
-            <div th:each="i : ${#numbers.sequence(1, totalPages)}">
-                <a th:href="@{'/store/menu/' + ${i} + '?sortField=' + ${sortField} + '&&sortDirection=' + ${sortDirection}}" th:text="${i}"></a>
+
+        <!--pagination info-->
+        <div class="pagination" th:if="${totalPages}">
+            <div class="pagination-info">
+                <div>Total Dishes: <span th:text="${totalItems}"></span></div>
+                <div>Current Page: <span th:text="${currentPage}"></span></div>
+                <div>Total Pages: <span th:text="${totalPages}"></span></div>
+            </div>
+            <div class="pagination-no">
+                <div th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <!--/restaurant/menu + i-->
+                    <!--/restaurant/menu/1/?sortField=id&&sortDirection=-->
+                    <div><a th:href="@{'/store/menu/' + ${i} + '?sortField=' + ${sortField} + '&&sortDirection=' + ${sortDirection}}" th:text="${i}"></a></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <footer th:include="@{/fragments/footer.html}"></footer>
-</main>
+        <footer th:include="@{/fragments/footer.html}"></footer>
+    </main>
 </body>
 </html>
