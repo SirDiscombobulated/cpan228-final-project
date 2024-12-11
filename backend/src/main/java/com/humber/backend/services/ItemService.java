@@ -10,57 +10,60 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ItemService {
 
+    //dependency injection
     private final ItemRepository itemRepository;
-
     @Autowired
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
 
-    // Get all items
+    // get all items
     public List<Item> getAllItems() {
         return itemRepository.findAll();
     }
 
-    // Save an item
-    public int saveItem(Item item) {
-        if (item.getPrice() >= 0) {
-            itemRepository.save(item);
-            return 1; // Success
-        }
-        return -1; // Error: price too low
+    // get an item by ID
+    public Item getItemById(String id) {
+        return itemRepository.findById(id).orElse(null);
     }
 
-    // Find by category and price
+    // add an item
+    public int addItem(Item item) {
+        if (item.getPrice() <= 0) {
+            return -1; // fail: price too low
+        }
+        itemRepository.save(item);
+        return 1; // success
+    }
+
+    // update an item
+    public void updateItem(String itemId, Item item) {
+        boolean dishExists = itemRepository.existsById(itemId);
+        if (!dishExists) {
+            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Update failed!");
+        }
+        item.setId(itemId);
+        itemRepository.save(item);
+    }
+
+    // delete an item by ID
+    public void deleteById(String itemId) {
+        if(!itemRepository.existsById(itemId)) {
+            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Delete failed!");
+        }
+        itemRepository.deleteById(itemId);
+    }
+
+    // find by category and price
     public List<Item> getFilteredItems(String category, Double price) {
         return itemRepository.findByIgnoreCaseCategoryAndPrice(category, price);
     }
 
-    // Delete an item by ID
-    public int deleteById(String id) {
-        if (itemRepository.existsById(id)) {
-            itemRepository.deleteById(id);
-            return 1; // Success
-        }
-        return -1; // Failure: item not found
-    }
-
-    // Update an item
-    public void updateItem(Item item) {
-        itemRepository.save(item);
-    }
-
-    // Get an item by ID
-    public Optional<Item> getItemById(String id) {
-        return itemRepository.findById(id);
-    }
-
-    // Paginate records
+    // paginate records
     public Page<Item> getPaginatedItems(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();
