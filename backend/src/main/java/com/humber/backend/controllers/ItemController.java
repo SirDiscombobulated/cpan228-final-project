@@ -19,7 +19,7 @@ public class ItemController {
     }
 
     //get all items
-    @GetMapping("/items/1?searchedCategory=&searchedPrice=&sortField=id&sortDirection=asc")
+    @GetMapping("/items")
     public ResponseEntity<List<Item>> getAllItems() {
         return ResponseEntity.ok(itemService.getAllItems());
     }
