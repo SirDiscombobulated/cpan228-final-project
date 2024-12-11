@@ -41,7 +41,7 @@ public class ItemController {
         } catch(IllegalStateException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
-        return ResponseEntity.ok("Item added successfully!");
+        return ResponseEntity.ok(item.getId());
     }
 
     //delete an item
@@ -53,7 +53,6 @@ public class ItemController {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
         return ResponseEntity.ok("Item deleted successfully!");
-
     }
 
     //update item
