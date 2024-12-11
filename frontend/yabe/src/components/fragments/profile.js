@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./fragmentsStyle/profile.css";
 import profileIcon from "./profile.png";
-
-
 
 const ProfileBar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,41 +10,39 @@ const ProfileBar = () => {
         setIsOpen(!isOpen);
     };
 
-    // Fetch user data from backend
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch("/api/user"); 
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data); 
-                }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        };
-
-        fetchUser();
+        const username = localStorage.getItem('username');
+        if (username) {
+            setUser({ username });
+        }
     }, []);
 
     const handleLogout = async () => {
+        console.log("Logout button clicked");
+
+        // Clear localStorage
+        localStorage.removeItem('username');
+        localStorage.removeItem('password');
+
+        // Call the logout API
         try {
-            const response = await fetch("/api/logout", { method: "POST" });
+            const response = await fetch("/logout", { method: "POST" });
             if (response.ok) {
-                window.location.href = "/login"; 
+                console.log("Logout successful, state updated");
+                setUser(null);
+                setIsOpen(false);
+                window.location.href = "/login";
+            } else {
+                console.error("Logout failed");
             }
         } catch (error) {
             console.error("Error logging out:", error);
         }
     };
 
-    const handleToggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
     return (
         <div className="profile-bar">
-            <div className="profile-icon" onClick={handleToggleDropdown}>
+            <div className="profile-icon" onClick={toggleDropdown}>
                 <img src={profileIcon} alt="Profile" className="profile-image" />
             </div>
             {isOpen && (
@@ -57,9 +53,9 @@ const ProfileBar = () => {
                             <button onClick={handleLogout} className="dropdown-item">Logout</button>
                         </>
                     ) : (
-                        <> 
-                        <a href="/login" className="dropdown-item">Login</a>
-                        <a href="/register" className="dropdown-item">Register</a>.
+                        <>
+                            <a href="/login" className="dropdown-item">Login</a>
+                            <a href="/register" className="dropdown-item">Register</a>
                         </>
                     )}
                 </div>

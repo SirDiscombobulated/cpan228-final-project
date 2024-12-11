@@ -22,7 +22,11 @@ const LoginPage = () => {
             if (response.ok) {
                 setError(false);
                 setMessage('Login successful');
-                // Save token or handle session here
+
+                // Store credentials (username and password) in localStorage
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', btoa(password));
+
             } else {
                 setError(true);
                 setMessage('Invalid username or password');
@@ -32,6 +36,20 @@ const LoginPage = () => {
             setMessage('An error occurred. Please try again.');
         }
     };
+    // Logout
+    const handleLogout = () => {
+        localStorage.removeItem('username');
+        localStorage.removeItem('password');
+        setMessage('Logged out successfully');
+        setUsername('');
+        setPassword('');
+    };
+
+    const getAuthHeader = () => {
+        const user = localStorage.getItem('username');
+        const pass = localStorage.getItem('password');
+        return 'Basic ' + btoa(user + ':' + atob(pass));
+    };
 
     return (
         <div className="login-container">
@@ -40,7 +58,6 @@ const LoginPage = () => {
 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
-                    {/* Username Field */}
                     <div className="mb-3 w-100">
                         <input
                             type="text"
@@ -53,7 +70,6 @@ const LoginPage = () => {
                         />
                     </div>
 
-                    {/* Password Field */}
                     <div className="mb-3 w-100">
                         <input
                             type="password"
@@ -66,22 +82,25 @@ const LoginPage = () => {
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <button type="submit" className="login-button">
                         Log in
                     </button>
-                    {/* Message Display */}
+
                     {message && (
                         <div className={`alert ${error ? 'alert-danger' : 'alert-info'}`} role="alert">
                             {message}
                         </div>
                     )}
 
-                    {/* Register Link */}
                     <div className="login-link">
                         <a href="/register">Register</a>
                     </div>
                 </form>
+
+                {/* Logout Button */}
+                <button onClick={handleLogout} className="logout-button">
+                    Log out
+                </button>
             </div>
         </div>
     );
