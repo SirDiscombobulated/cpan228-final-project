@@ -16,6 +16,7 @@ public class ItemService {
 
     //dependency injection
     private final ItemRepository itemRepository;
+
     @Autowired
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -58,10 +59,19 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
+    //find by title
+    public List<Item> getFilteredItems(String title) {
+        return itemRepository.findByTitleContaining(title);
+    }
+
     // find by category and price
     public List<Item> getFilteredItems(String category, Double price) {
         return itemRepository.findByIgnoreCaseCategoryAndPrice(category, price);
     }
+
+    // finds the top 9 items in ItemRepository with the largest array size for interested
+    public List<Item> getTopInterestedItems() {
+        return itemRepository.findTopInterestedItems(); }
 
     // paginate records
     public Page<Item> getPaginatedItems(int pageNo, int pageSize, String sortField, String sortDirection) {

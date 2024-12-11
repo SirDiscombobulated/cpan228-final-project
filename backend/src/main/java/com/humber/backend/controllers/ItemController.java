@@ -65,4 +65,16 @@ public class ItemController {
         }
         return ResponseEntity.ok("Item updated successfully!");
     }
+
+    //search items with a key phrase within title
+    @GetMapping("/filter/{keyword}")
+    public ResponseEntity<List<Item>> getFilteredItems(@PathVariable String keyword) {
+        return ResponseEntity.ok(itemService.getFilteredItems(keyword));
+    }
+
+    //featured items
+    @GetMapping("/featured")
+    public ResponseEntity<List<Item>> getFeaturedItems() {
+        return ResponseEntity.ok(itemService.getTopInterestedItems());
+    }
 }
