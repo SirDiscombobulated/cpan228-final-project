@@ -63,6 +63,6 @@ public class ItemController {
         } catch(IllegalStateException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
-        return ResponseEntity.ok("Dish updated successfully!");
+        return ResponseEntity.ok("Item updated successfully!");
     }
 }
