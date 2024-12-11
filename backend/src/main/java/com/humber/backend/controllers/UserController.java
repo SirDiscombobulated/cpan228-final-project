@@ -1,3 +1,4 @@
+//UserController
 package com.humber.backend.controllers;
 
 import com.humber.backend.models.MyUser;
@@ -10,66 +11,50 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/store/api")
 public class UserController {
-
-    //dependency injection
     private final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    //get all users
     @GetMapping("/users")
     public List<MyUser> getUsers() {
         return userService.getUsers();
     }
 
-    //get user by username
-    @GetMapping("/users/{username}")
-    public MyUser getUser(@PathVariable("username") String username) {
-        return userService.getUser(username);
+    @GetMapping("/user/{id}")
+    public MyUser getUser(@PathVariable("id") String id) {
+        return userService.getUser(id);
     }
 
-    //add a new user
+    @PutMapping("/user/{id}")
+    public MyUser updateUser(@RequestBody MyUser user, @PathVariable String id) {
+        user.setId(id); // Ensure the user ID is set before updating
+        return userService.updateUser(user);
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody() MyUser user) {
-        user.setRole("USER");
-        int statusCode = userService.addUser(user);
-        if (statusCode == -1) {
-            return ResponseEntity.badRequest().body("Error! Username is taken!");
-        }
-        return ResponseEntity.ok("Successfully registered!");
+    public ResponseEntity<MyUser> register(@RequestBody MyUser user) {
+        MyUser newUser = userService.addUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
-    //update an user
-    @PutMapping("/users")
-    public ResponseEntity<String> updateUser(@RequestBody() MyUser user) {
-        int statusCode = userService.updateUser(user);
-        if (statusCode == -1) {
-            return ResponseEntity.badRequest().body("Error! Could not find user!");
-        }
-        return ResponseEntity.ok("Successfully updated user!");
-    }
-
-    //delete an user
-    @DeleteMapping("/users/{username}")
-    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
-        int statusCode = userService.deleteUser(username);
-        if (statusCode == -1) {
-            return ResponseEntity.badRequest().body("Error! Could not find user!");
-        }
-        return ResponseEntity.ok("Successfully deleted user!");
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable("id") String id) {
+        userService.deleteUser(id);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MyUser user) {
-        // Add login logic here
         boolean isAuthenticated = userService.authenticate(user.getUsername(), user.getPassword());
-        if (!isAuthenticated) {
+        if (isAuthenticated) {
+            return ResponseEntity.ok("Login Successful");
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
-        return ResponseEntity.ok("Login Successful");
     }
 
     @GetMapping("/login")

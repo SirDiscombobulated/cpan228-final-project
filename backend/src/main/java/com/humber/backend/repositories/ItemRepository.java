@@ -9,7 +9,7 @@ import java.util.List;
 @Repository("mongoItemRepository") // Explicit name for MongoDB repository
 public interface ItemRepository extends MongoRepository<Item, String> {
 
-   
+
     public List<Item> findByIgnoreCaseCategoryAndPrice(String category, Double price);
 
 }

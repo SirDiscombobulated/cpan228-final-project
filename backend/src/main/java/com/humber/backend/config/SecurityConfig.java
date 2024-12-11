@@ -44,9 +44,9 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF entirely
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login","/register/**").permitAll()
-                        .requestMatchers("/store/api/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/store/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/store/home/**","/login","/register/**").permitAll()
+                        .requestMatchers("/store/index/**", "/store/api/**").permitAll()
+                        .requestMatchers("/store/ADMIN/**").hasRole("ADMIN")
                         .anyRequest().authenticated()//Any other request must be authenticated
                 )
                 .cors(Customizer.withDefaults())

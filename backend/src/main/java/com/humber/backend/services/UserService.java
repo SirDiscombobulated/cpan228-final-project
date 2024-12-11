@@ -20,49 +20,33 @@ public class UserService {
     }
 
     public boolean authenticate(String username, String password) {
-        MyUser user = userRepository.findByUsername(username);
-        return user != null && passwordEncoder.matches(password, user.getPassword());
+        MyUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
-    //returns all users in UserRepository
-    public List<MyUser> getUsers() {
-        return userRepository.findAll();
-    }
-
-    //returns the user corresponding to the username (if it exists)
-    public MyUser getUser(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    //adds the user to UserRepository
-    public int addUser(MyUser user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            return -1;
+    public MyUser addUser(MyUser user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalStateException("User already exists with username: " + user.getUsername());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return 1;
+        return userRepository.save(user);
     }
 
-    //finds user by username, updates user
-    public int updateUser(MyUser user) {
-        MyUser newUser = userRepository.findByUsername(user.getUsername());
-        if (newUser == null) {
-            return -1;
-        }
-        newUser.setId(user.getId());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(newUser);
-        return 1;
+    public MyUser getUser(String id) {
+        return userRepository.findById(id).orElse(null);
     }
 
-    //finds user by username, deletes user
-    public int deleteUser(String username) {
-        MyUser user = userRepository.findByUsername(username);
-        if (user == null) {
-            return -1;
-        }
-        userRepository.deleteByUsername(username);
-        return 1;
+    public MyUser updateUser(MyUser user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
+
+    // Add this method
+    public List<MyUser> getUsers() {
+        return userRepository.findAll();
     }
 }
