@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import './authStyle/login.css'; // Assuming this is where your styles are defined
 
+<<<<<<< HEAD
+=======
+import React, { useState } from 'react';
+
+>>>>>>> origin/twig
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -11,7 +16,11 @@ const LoginPage = () => {
         e.preventDefault();
 
         try {
+<<<<<<< HEAD
             const response = await fetch('http://localhost:8080/login', {
+=======
+            const response = await fetch('http://localhost:8080/api/login', {
+>>>>>>> origin/twig
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,10 +43,24 @@ const LoginPage = () => {
     };
 
     return (
+<<<<<<< HEAD
         <div className="login-container">
             <div className="main bg-white p-4 shadow rounded">
                 <h1 className="text-primary">Log In To Store</h1>
 
+=======
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundColor: '#f5f7fa' }}>
+            <div className="main bg-white p-4 shadow rounded" style={{ width: '100%', maxWidth: '400px' }}>
+                <h1 className="text-primary">Log In To Store</h1>
+
+                {/* Message Display */}
+                {message && (
+                    <div className={`alert ${error ? 'alert-danger' : 'alert-info'}`} role="alert">
+                        {message}
+                    </div>
+                )}
+
+>>>>>>> origin/twig
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
                     {/* Username Field */}
@@ -70,6 +93,7 @@ const LoginPage = () => {
                     <button type="submit" className="btn btn-primary w-100">
                         Log in
                     </button>
+<<<<<<< HEAD
             
                     {/* Message Display */}
                     {message && (
@@ -77,6 +101,8 @@ const LoginPage = () => {
                         {message}
                      </div>
                     )}
+=======
+>>>>>>> origin/twig
 
                     {/* Register Link */}
                     <div className="alert">
@@ -84,9 +110,15 @@ const LoginPage = () => {
                             Register
                         </a>
                     </div>
+<<<<<<< HEAD
                     
                 </form></div>
             </div>
+=======
+                </form>
+            </div>
+        </div>
+>>>>>>> origin/twig
     );
 };
 

@@ -20,7 +20,7 @@ public class MyUser {
     private String role;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private long phoneNumber;
     private String email;
     private String bio;
     private List<String> wishlist;

@@ -4,61 +4,64 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-public SecurityConfig(UserDetailsService userDetailsService) {
-    this.userDetailsService = userDetailsService;
-}
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     //Security filter chain - rules for the application
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/store/home/**","/login","register/**").permitAll()
-                        .requestMatchers("/store/index/**").hasAnyRole("USER", "ADMIN")
+        http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF entirely
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/store/home/**","/login","/register/**").permitAll()
+                        .requestMatchers("/store/index/**", "/store/api/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/store/ADMIN/**").hasRole("ADMIN")
                         .anyRequest().authenticated()//Any other request must be authenticated
                 )
-                .formLogin(httpSecurityFormLoginConfigurer -> {
-                    httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
-                        }
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
- //                       .logoutSuccessUrl("/restaurant/home")
-                        .permitAll());
-
+                .cors(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
-          DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-          provider.setUserDetailsService(userDetailsService);
-          provider.setPasswordEncoder(passwordEncoder());
-    return provider;
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
     }
 
-
-
-
-    @Bean
-    public WebSecurityCustomizer ignoreResources(){
-        return (webSecurity) -> webSecurity
-                .ignoring()
-                .requestMatchers("/css/**", "/h2-console/**");
-    }
     //password encoder
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
