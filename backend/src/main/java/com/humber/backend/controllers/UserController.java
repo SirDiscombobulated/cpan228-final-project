@@ -62,6 +62,7 @@ public class UserController {
         return ResponseEntity.ok("Successfully deleted user!");
     }
 
+    //allows frontend to authenticate username and password
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MyUser user) {
         // Add login logic here
@@ -70,10 +71,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
         return ResponseEntity.ok("Login Successful");
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<String> handleGetLogin() {
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("GET method is not supported for /login");
     }
 }
