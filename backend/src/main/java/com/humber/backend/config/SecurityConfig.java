@@ -39,11 +39,15 @@ public class SecurityConfig {
         return source;
     }
 
+    //Security filter chain - rules for the application
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF entirely
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll() // Permit all requests without authentication
+                        .requestMatchers("/store/home/**","/login","/register/**").permitAll()
+                        .requestMatchers("/store/index/**", "/store/api/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/store/ADMIN/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()//Any other request must be authenticated
                 )
                 .cors(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
@@ -58,6 +62,7 @@ public class SecurityConfig {
         return provider;
     }
 
+    //password encoder
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
