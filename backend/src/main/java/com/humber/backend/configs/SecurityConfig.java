@@ -45,8 +45,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF entirely
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/store/home/**","/login","/register/**").permitAll()
-                        .requestMatchers("/store/index/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/store/ADMIN/**", "/store/api/**").hasRole("ADMIN")
+                        .requestMatchers("/store/index/**", "/store/api/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/store/ADMIN/**").hasRole("ADMIN")
                         .anyRequest().authenticated()//Any other request must be authenticated
                 )
                 .cors(Customizer.withDefaults())
