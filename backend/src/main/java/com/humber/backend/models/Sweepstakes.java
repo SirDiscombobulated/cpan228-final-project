@@ -18,6 +18,5 @@ public class Sweepstakes {
     private String id;
     private String itemId;
     private boolean isActive;
-    private LocalDateTime expirationDate;ㅁ
+    private LocalDateTime expirationDate;
 }
-xi ke
