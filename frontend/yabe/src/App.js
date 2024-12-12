@@ -16,8 +16,10 @@ import AccountPage from "./components/fragments/account/account";
 import AccountInfo from "./components/fragments/account/accountInfo";
 import Wishlist from "./components/fragments/account/wishlist";
 import EditProfile from "./components/fragments/account/editProfile";
-import React from "react";
 import BannedPage from "./components/auth/banned";
+import React from "react";
+import AdminPage from "./components/admin/admin";
+
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState(""); // Define searchQuery state
@@ -36,10 +38,7 @@ const App = () => {
                 <Routes>
                     <Route path="/item/:id" element={<ItemDetail />} />
                     <Route path="/store/home" element={<HomePage />} />
-                    <Route
-                        path="/store/stock"
-                        element={<StockPage searchQuery={searchQuery} />} // Pass searchQuery to StockPage
-                    />
+                    <Route path="/store/stock" element={<StockPage searchQuery={searchQuery} />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/store/admin/add-item" element={<AddItemPage />} />
@@ -49,8 +48,9 @@ const App = () => {
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/banned" element={<BannedPage />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/store/admin/add-item" element={<AddItemPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/admin/admin-panel" element={<AdminPage/>}/>
+
                 </Routes>
             </main>
             <Footer />
