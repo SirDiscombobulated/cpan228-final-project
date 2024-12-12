@@ -1,19 +1,20 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
+    baseURL: "http://localhost:8080", // Ensure this is correct
     headers: {
-        'Content-Type': 'application/json'
-    }
+        'Content-Type': 'application/json',
+    },
 });
 
 axiosInstance.interceptors.request.use(
     (config) => {
-        const username = REACT_APP_API_USERNAME;
-        const password = REACT_APP_API_PASSWORD;
+        const username = process.env.REACT_APP_API_USERNAME;
+        const password = process.env.REACT_APP_API_PASSWORD;
         if (username && password) {
             config.auth = {
                 username: username,
-                password: password
+                password: password,
             };
         }
         return config;

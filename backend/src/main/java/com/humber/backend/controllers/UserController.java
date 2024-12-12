@@ -114,6 +114,18 @@ public class UserController {
         return ResponseEntity.ok("Success! User has been deleted!");
     }
 
+    //checks if user is banned or not
+    @GetMapping("/isBanned/{username}")
+    public ResponseEntity<String> isBanned(@PathVariable("username") String username) {
+        int statusCode = userService.isUserBanned(username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        } else if (statusCode == -2) {
+            return ResponseEntity.ok("User is banned!");
+        }
+        return ResponseEntity.ok("User is not banned!");
+    }
+
     //ban an user
     @PutMapping("/users/ban/{username}")
     public ResponseEntity<String> banUser(@PathVariable String username) {

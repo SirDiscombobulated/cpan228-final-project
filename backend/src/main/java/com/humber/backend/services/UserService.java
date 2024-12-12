@@ -151,6 +151,17 @@ public class UserService {
         return 1;
     }
 
+    //returns if user is banned or not
+    public int isUserBanned(String username) {
+        MyUser user = userRepository.findByUsername(username);
+        if (user == null) {
+            return -1;
+        } if (user.getRole().equalsIgnoreCase("BANNED")) {
+            return -2;
+        }
+        return 1;
+    }
+
     //ban a user by username
     public int banUser(String username) {
         MyUser user = userRepository.findByUsername(username);

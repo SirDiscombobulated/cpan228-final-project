@@ -1,0 +1,27 @@
+.banned-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.banned-content {
+    text-align: center;
+}
+
+.banned-image {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.banned-message {
+    font-size: 2em;
+    color: #dc3545;
+}
+
+.banned-description {
+    font-size: 1em;
+    color: #6c757d;
+}
