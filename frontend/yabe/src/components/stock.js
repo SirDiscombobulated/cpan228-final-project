@@ -1,177 +1,128 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 
-const Stock = () => {
+const StockPage = ({ searchQuery }) => {
     const [items, setItems] = useState([]);
-    const [success, setSuccess] = useState(null);
-    const [fail, setFail] = useState(null);
-    const [searchedCategory, setSearchedCategory] = useState('');
-    const [searchedPrice, setSearchedPrice] = useState('');
-    const [totalItems, setTotalItems] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [sortField, setSortField] = useState('id');
-    const [sortDirection, setSortDirection] = useState('asc');
+    const itemsPerPage = 10;
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+
+    const fetchItems = async (query = "") => {
+        try {
+            setLoading(true);
+            const url = query
+                ? `http://localhost:8080/store/api/filter/${query}`
+                : "http://localhost:8080/store/api/featured";
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + btoa("admin:12345"), // Replace with your credentials
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to fetch items. Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setItems(data);
+            setError(null);
+        } catch (err) {
+            console.error("Error fetching items:", err);
+            setError("Failed to load items. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchItems = async () => {
-            try {
-                const response = await axios.get(`'http://localhost:8080/store/stock/1'`, {
-                    params: {
-                        searchedCategory,
-                        searchedPrice,
-                        sortField,
-                        sortDirection
-                    }
-                });
-                setItems(response.data.items);
-                setTotalItems(response.data.totalItems);
-                setTotalPages(response.data.totalPages);
-            } catch (error) {
-                console.error(error);
+        fetchItems(searchQuery); // Fetch items whenever the search query changes
+    }, [searchQuery]);
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+
+    const handlePageChange = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
+
+    const sortItems = (key) => {
+        let direction = "asc";
+        if (sortConfig.key === key && sortConfig.direction === "asc") {
+            direction = "desc";
+        }
+        setSortConfig({ key, direction });
+
+        items.sort((a, b) => {
+            if (a[key] < b[key]) {
+                return direction === "asc" ? -1 : 1;
             }
-        };
-        fetchItems();
-    }, [currentPage, searchedCategory, searchedPrice, sortField, sortDirection]);
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setCurrentPage(1);
+            if (a[key] > b[key]) {
+                return direction === "asc" ? 1 : -1;
+            }
+            return 0;
+        });
     };
 
-    const handleReset = () => {
-        setSearchedCategory('');
-        setSearchedPrice('');
-        setCurrentPage(1);
-    };
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
-    const toggleSortDirection = () => {
-        setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    };
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
-        <main>
-            <div className="content">
-                {success && <div className="alert alert-success">{success}</div>}
-                {fail && <div className="alert alert-danger">{fail}</div>}
-                <h1>Stock</h1>
-                <form onSubmit={handleSearch}>
-                    <input
-                        type="text"
-                        value={searchedCategory}
-                        onChange={(e) => setSearchedCategory(e.target.value)}
-                        placeholder="Enter a category"
-                    />
-                    <input
-                        type="number"
-                        value={searchedPrice}
-                        onChange={(e) => setSearchedPrice(e.target.value)}
-                        placeholder="Enter a price"
-                    />
-                    <button type="submit" className="btn btn-primary">Filter</button>
-                    <button type="button" onClick={handleReset} className="btn btn-primary">Reset</button>
-                    <Link to="/store/add-item" className="btn btn-danger">Add</Link>
-                </form>
-                <table className="table table-dark">
-                    <thead>
-                    <tr>
-                        <th>
-                            <a
-                                href="#"
-                                onClick={() => {
-                                    setSortField('id');
-                                    toggleSortDirection();
-                                }}
-                            >
-                                ID
-                            </a>
-                        </th>
-                        <th>
-                            <a
-                                href="#"
-                                onClick={() => {
-                                    setSortField('name');
-                                    toggleSortDirection();
-                                }}
-                            >
-                                NAME
-                            </a>
-                        </th>
-                        <th>
-                            <a
-                                href="#"
-                                onClick={() => {
-                                    setSortField('category');
-                                    toggleSortDirection();
-                                }}
-                            >
-                                CATEGORY
-                            </a>
-                        </th>
-                        <th>
-                            <a
-                                href="#"
-                                onClick={() => {
-                                    setSortField('price');
-                                    toggleSortDirection();
-                                }}
-                            >
-                                PRICE
-                            </a>
-                        </th>
-                        <th colSpan="2">Operations</th>
+        <div>
+            <h1>Stock Items</h1>
+            <table border="1" style={{ width: "100%", textAlign: "left" }}>
+                <thead>
+                <tr>
+                    <th onClick={() => sortItems("title")}>
+                        Title {sortConfig.key === "title" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                    </th>
+                    <th onClick={() => sortItems("category")}>
+                        Category {sortConfig.key === "category" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                    </th>
+                    <th onClick={() => sortItems("price")}>
+                        Price {sortConfig.key === "price" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                    </th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th onClick={() => sortItems("status")}>
+                        Status {sortConfig.key === "status" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {currentItems.map((item) => (
+                    <tr key={item._id}>
+                        <td>
+                            <Link to={`/item/${item._id}`} className="stock-item-link">
+                                {item.title || "N/A"}
+                            </Link>
+                        </td>
+                        <td>{item.category || "N/A"}</td>
+                        <td>${item.price ? item.price.toFixed(2) : "0.00"}</td>
+                        <td>{item.description || "No description available"}</td>
+                        <td>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</td>
+                        <td>{item.status || "Unknown"}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {items.map((item) => (
-                        <tr key={item.id}>
-                            <th scope="row">{item.id}</th>
-                            <td>{item.name}</td>
-                            <td>{item.category}</td>
-                            <td>{item.price}</td>
-                            <td>
-                                <Link to={`/store/delete/${item.id}`} className="btn btn-danger btn-sm">
-                                    Delete
-                                </Link>
-                            </td>
-                            <td>
-                                <Link to={`/store/update/${item.id}`} className="btn btn-danger btn-sm">
-                                    Update
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* Pagination */}
-            {totalPages > 0 && (
-                <div className="pagination">
-                    <div className="pagination-info">
-                        <div>Total Items: {totalItems}</div>
-                        <div>Current Page: {currentPage}</div>
-                        <div>Total Pages: {totalPages}</div>
-                    </div>
-                    <div className="pagination-no">
-                        {Array.from({ length: totalPages }, (_, i) => (
-                            <div key={i + 1}>
-                                <a
-                                    href="#"
-                                    onClick={() => setCurrentPage(i + 1)}
-                                    className={i + 1 === currentPage ? 'active' : ''}
-                                >
-                                    {i + 1}
-                                </a>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-        </main>
+                ))}
+                </tbody>
+            </table>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+        </div>
     );
 };
 
-export default Stock;
+export default StockPage;
