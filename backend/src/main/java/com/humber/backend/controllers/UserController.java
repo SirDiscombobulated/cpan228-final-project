@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController // Use @RestController instead of @Controller
-@RequestMapping("/store/api")
 public class UserController {
 
     private final UserService userService;

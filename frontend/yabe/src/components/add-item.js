@@ -48,7 +48,9 @@ const AddItemPage = ({ itemId }) => {
             data: item
         })
             .then(response => {
-                window.location.href = '/store/items'; // Redirect to items list page
+                const newId = response.data; // Capture the returned ID
+                console.log('New Item ID:', newId); // You can remove this after testing
+                window.location.href = `/store/items/${newId}`; // Redirect to the item details page or wherever needed
             })
             .catch(err => {
                 setError('Failed to save item');
