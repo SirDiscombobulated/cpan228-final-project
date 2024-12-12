@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAuthHeader } from '../../auth/auth';
-import './accountStyle/account.css'
-
+import './accountStyle/account.css';
 
 function AccountInfo() {
     const [userData, setUserData] = useState(null);
@@ -48,23 +47,24 @@ function AccountInfo() {
 
     return (
         <div className="profile-page">
-
-            <h1>{userData.firstName} {userData.lastName}</h1>
-            <p>Username: {userData.username}</p>
-            <p>Role: {userData.role}</p>
-            <p>Phone Number: {userData.phoneNumber}</p>
-            <p>Email: {userData.email}</p>
-            <p>Bio: {userData.bio}</p>
-            <h2>Wishlist</h2>
-            <ul>
-                {userData.wishlist && userData.wishlist.length > 0 ? (
-                    userData.wishlist.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))
-                ) : (
-                    <li>No items in wishlist</li>
-                )}
-            </ul>
+            <div className="profile-card">
+                <h1>{userData.firstName} {userData.lastName}</h1>
+                <p><strong>Username:</strong> {userData.username}</p>
+                <p><strong>Role:</strong> {userData.role}</p>
+                <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
+                <p><strong>Email:</strong> {userData.email}</p>
+                <p><strong>Bio:</strong> {userData.bio}</p>
+                <h2>Wishlist</h2>
+                <ul>
+                    {userData.wishlist && userData.wishlist.length > 0 ? (
+                        userData.wishlist.map((item, index) => (
+                            <li key={index}>{item}</li>
+                        ))
+                    ) : (
+                        <li>No items in wishlist</li>
+                    )}
+                </ul>
+            </div>
         </div>
     );
 }
