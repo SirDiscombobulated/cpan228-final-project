@@ -80,7 +80,7 @@ const RegisterPage = () => {
                         Register
                     </button>
                     <div className="login-link">
-                        <a href="/login/login">Back to Login</a>
+                        <a href="/login">Back to Login</a>
                     </div>
                 </form>
             </div>
