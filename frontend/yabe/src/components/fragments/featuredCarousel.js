@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './fragmentsStyle/featuredCarousel.css';
-import electronicsImg from '../icons/electronics.png';
-import kitchenImg from '../icons/kitchen.png';
-import clothingImg from '../icons/clothing.png';
+import electronicsImg from './carouselImages/computer.jpg';
+import kitchenImg from './carouselImages/kitchen.jpg';
+import clothingImg from './carouselImages/clothing.jpg';
 
 const FeaturedCarousel = () => {
     const [items, setItems] = useState([]);
@@ -20,6 +20,14 @@ const FeaturedCarousel = () => {
         setItems(data);
     }, []);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [items.length]);
+
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
     };
@@ -34,7 +42,7 @@ const FeaturedCarousel = () => {
                 <div className="carousel">
                     <div className="carousel-item" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                         {items.map((item, index) => (
-                            <div key={index} className="carousel-card">
+                            <div key={item.id} className="carousel-card">
                                 <img
                                     src={item.image}
                                     alt={item.title}
@@ -51,7 +59,7 @@ const FeaturedCarousel = () => {
                         &#10094;
                     </button>
                     <button className="carousel-control-next" onClick={handleNext}>
-                         &#10095;
+                        &#10095;
                     </button>
                 </div>
             )}

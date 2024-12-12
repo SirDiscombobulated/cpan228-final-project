@@ -1,44 +1,106 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { getAuthHeader, fetchData, sendData } from '../../auth/auth';
 
-const Wishlist = () => {
-    const [items, setItems] = useState([]);
-    const [error, setError] = useState(null);
+function Wishlist() {
+    const [wishlist, setWishlist] = useState([]);
+    const [item, setItem] = useState('');
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        const fetchWishlistItems = async () => {
+        const fetchWishlist = async () => {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                setError(true);
+                return;
+            }
+
             try {
-                const response = await axios.get('/store/api/wishlist');
-                setItems(response.data);
+                const data = await fetchData(`http://localhost:8080/api/users/${username}/wishlist/items`);
+                if (data && Array.isArray(data)) {
+                    setWishlist(data);
+                } else {
+                    setError(true);
+                }
             } catch (err) {
-                setError('Failed to fetch wishlist items');
+                console.error('Error fetching wishlist:', err);
+                setError(true);
             }
         };
 
-        fetchWishlistItems();
+        fetchWishlist();
     }, []);
 
+    const addItem = async () => {
+        const username = localStorage.getItem('username');
+        if (!username || !item) {
+            setError(true);
+            return;
+        }
+
+        try {
+            const response = await sendData(`http://localhost:8080/api/users/${username}/wishlist/items`, { item });
+            if (response) {
+                setWishlist([...wishlist, item]);
+                setItem('');
+            } else {
+                setError(true);
+            }
+        } catch (err) {
+            console.error('Error adding item:', err);
+            setError(true);
+        }
+    };
+
+    const removeItem = async (itemToRemove) => {
+        const username = localStorage.getItem('username');
+        if (!username) {
+            setError(true);
+            return;
+        }
+
+        try {
+            const response = await sendData(`http://localhost:8080/api/users/${username}/wishlist/items/remove`, { item: itemToRemove });
+            if (response) {
+                setWishlist(wishlist.filter(wishlistItem => wishlistItem !== itemToRemove));
+            } else {
+                setError(true);
+            }
+        } catch (err) {
+            console.error('Error removing item:', err);
+            setError(true);
+        }
+    };
+
     if (error) {
-        return <div>{error}</div>;
+        return <div>Error loading wishlist. Please try again later.</div>;
     }
 
     return (
-        <div>
-            <h2>My Wishlist</h2>
+        <div className="wishlist-page">
+            <h2>Your Wishlist</h2>
             <ul>
-                {items.map((item) => (
-                    <li key={item.id}>
-                        <h3>{item.title}</h3>
-                        <p>Category: {item.category}</p>
-                        <p>Price: ${item.price.toFixed(2)}</p>
-                        <p>{item.description}</p>
-                        <p>Created At: {new Date(item.createdAt).toLocaleString()}</p>
-                        <p>Status: {item.status}</p>
-                    </li>
-                ))}
+                {wishlist.length > 0 ? (
+                    wishlist.map((wishlistItem, index) => (
+                        <li key={index}>
+                            {wishlistItem}
+                            <button onClick={() => removeItem(wishlistItem)}>Remove</button>
+                        </li>
+                    ))
+                ) : (
+                    <li>No items in wishlist</li>
+                )}
             </ul>
+            <div>
+                <input
+                    type="text"
+                    value={item}
+                    onChange={(e) => setItem(e.target.value)}
+                    placeholder="Add new item"
+                />
+                <button onClick={addItem}>Add</button>
+            </div>
         </div>
     );
-};
+}
 
 export default Wishlist;
