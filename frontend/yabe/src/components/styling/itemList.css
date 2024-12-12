@@ -1,0 +1,45 @@
+/* Ensure the following styles are at the top of your CSS file */
+.btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: gray !important;
+    color: white !important;
+}
+
+.btn-danger {
+    background-color: red !important;
+    color: white !important;
+}
+
+/* Your existing styles */
+.items-list .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.items-list .col-md-3 {
+    flex: 1 1 25%;
+    max-width: 25%;
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
+.items-list .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.items-list .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

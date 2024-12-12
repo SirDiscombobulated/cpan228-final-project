@@ -16,6 +16,7 @@ public class ItemService {
 
     //dependency injection
     private final ItemRepository itemRepository;
+
     @Autowired
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -41,27 +42,26 @@ public class ItemService {
     }
 
     // update an item
-    public void updateItem(String itemId, Item item) {
-        boolean dishExists = itemRepository.existsById(itemId);
-        if (!dishExists) {
-            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Update failed!");
+    public int updateItem(String username, String itemId, Item item) {
+        Item updatedItem = itemRepository.findById(itemId).orElse(null);
+        if (updatedItem == null) {
+            return -1;
+        } else if (!updatedItem.getOwnerId().equals(username)) {
+            return -2;
         }
         item.setId(itemId);
         itemRepository.save(item);
+        return 1;
     }
 
-    // delete an item by ID
-    public void deleteById(String itemId) {
-        if(!itemRepository.existsById(itemId)) {
-            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Delete failed!");
-        }
-        itemRepository.deleteById(itemId);
+    //find by status and title
+    public List<Item> getFilteredItems(String status, String title) {
+        return itemRepository.findByIgnoreCaseStatusContainingAndIgnoreCaseTitleContaining(status, title);
     }
 
-    // find by category and price
-    public List<Item> getFilteredItems(String category, Double price) {
-        return itemRepository.findByIgnoreCaseCategoryAndPrice(category, price);
-    }
+    // finds the top 9 items in ItemRepository with the largest array size for interested
+    public List<Item> getTopInterestedItems() {
+        return itemRepository.findTopInterestedItems(); }
 
     // paginate records
     public Page<Item> getPaginatedItems(int pageNo, int pageSize, String sortField, String sortDirection) {
