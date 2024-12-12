@@ -7,7 +7,7 @@ const HomePage = ({ sName }) => {
         <main>
             <div className="content">
                 <div className="container mt-5">
-                    <div className="card mx-auto" style={{ maxWidth: '600px' }}>
+                    <div className="card" style={{ maxWidth: '600px' }}>
                         <div className="card-body">
                             <img
                                 src=""
@@ -25,7 +25,7 @@ const HomePage = ({ sName }) => {
                             </a>
                         </div>
                     </div>
-                    <ItemList /> {/* Use the ItemList component */}
+                    <ItemList />
                 </div>
             </div>
         </main>
