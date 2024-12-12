@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './accountStyle/account.css';
 
 const AccountPage = () => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-            <h1>Account Page</h1>
-            <Link to="/account-info" style={{ textDecoration: 'none' }}>
-                <button style={{ margin: '10px', padding: '10px', fontSize: '16px' }}>Account Info</button>
-            </Link>
-            <Link to="/edit-profile" style={{ textDecoration: 'none' }}>
-                <button style={{ margin: '10px', padding: '10px', fontSize: '16px' }}>Edit Profile</button>
-            </Link>
-            <Link to="/wishlist" style={{ textDecoration: 'none' }}>
-                <button style={{ margin: '10px', padding: '10px', fontSize: '16px' }}>Wishlist</button>
-            </Link>
+        <div className="account-container">
+            <div className="account-card">
+                <h1 className="account-title">Your Account</h1>
+                <Link to="/account-info" className="account-link">
+                    <button className="account-button">Account Info</button>
+                </Link>
+                <Link to="/edit-profile" className="account-link">
+                    <button className="account-button">Edit Profile</button>
+                </Link>
+                <Link to="/wishlist" className="account-link">
+                    <button className="account-button">Wishlist</button>
+                </Link>
+            </div>
         </div>
     );
 }
