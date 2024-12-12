@@ -127,10 +127,12 @@ public class UserService {
     }
 
     // delete an item by ID
-    public int deleteByItemId(String itemId) {
+    public int deleteByItemId(String userId, String itemId) {
         Item deletedItem = itemRepository.findById(itemId).orElse(null);
         if(deletedItem == null) {
             return -1;
+        } else if (!deletedItem.getOwnerId().equals(userId)) {
+            return -2;
         }
         List<String> interested = deletedItem.getInterested();
         interested.forEach(username -> removeFromWishlist(username, itemId));

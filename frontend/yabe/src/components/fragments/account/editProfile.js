@@ -23,7 +23,7 @@ function EditProfile() {
                 return;
             }
 
-            const data = await fetchData(`http://localhost:8080/users/${username}`);
+            const data = await fetchData(`http://localhost:8080/api/users/${username}`);
 
             if (data) {
                 setUserData(data);
@@ -55,7 +55,7 @@ function EditProfile() {
             const headers = getAuthHeader();
             console.log('Auth headers:', headers); // Debugging: Check the auth headers
 
-            const response = await fetch(`http://localhost:8080/users/${username}`, {
+            const response = await fetch(`http://localhost:8080/api/users/${username}`, {
                 method: 'PUT',
                 headers: headers,
                 body: JSON.stringify(updatedData)

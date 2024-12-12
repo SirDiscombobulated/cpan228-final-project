@@ -15,7 +15,7 @@ function Wishlist() {
             }
 
             try {
-                const data = await fetchData(`http://localhost:8080/api/users/${username}/wishlist/items`);
+                const data = await fetchData(`http://localhost:8080/api/users/${username}`);
                 if (data && Array.isArray(data)) {
                     setWishlist(data);
                 } else {
@@ -38,7 +38,7 @@ function Wishlist() {
         }
 
         try {
-            const response = await sendData(`http://localhost:8080/api/users/${username}/wishlist/items`, { item });
+            const response = await sendData(`http://localhost:8080/api/users/${username}`, { item });
             if (response) {
                 setWishlist([...wishlist, item]);
                 setItem('');
@@ -59,7 +59,7 @@ function Wishlist() {
         }
 
         try {
-            const response = await sendData(`http://localhost:8080/api/users/${username}/wishlist/items/remove`, { item: itemToRemove });
+            const response = await sendData(`http://localhost:8080/api/users/${username}`, { item: itemToRemove });
             if (response) {
                 setWishlist(wishlist.filter(wishlistItem => wishlistItem !== itemToRemove));
             } else {

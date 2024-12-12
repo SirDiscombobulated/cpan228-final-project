@@ -17,7 +17,7 @@ function AccountInfo() {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/users/${username}`, {
+                const response = await fetch(`http://localhost:8080/api/users/${username}`, {
                     method: 'GET',
                     headers: authHeader,
                 });

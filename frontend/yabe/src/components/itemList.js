@@ -11,7 +11,7 @@ const ItemList = () => {
     const username = localStorage.getItem('username'); // Get current username
 
     useEffect(() => {
-        fetchData('http://localhost:8080/store/api/featured')
+        fetchData('http://localhost:8080/api/items/featured')
             .then(data => {
                 if (data) setItems(data);
             })

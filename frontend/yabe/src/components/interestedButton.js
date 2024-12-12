@@ -4,7 +4,7 @@ const InterestedButton = ({ isInterested, username, itemId }) => {
     const [interested, setInterested] = useState(isInterested);
 
     const toggleInterest = async () => {
-        const url = `http://localhost:8080/wishlist/${interested ? 'remove' : 'add'}/${username}/${itemId}`;
+        const url = `http://localhost:8080/api/wishlist/${interested ? 'remove' : 'add'}/${username}/${itemId}`;
         const method = 'PUT';
         const headers = {
             'Authorization': `Basic ${btoa(`${localStorage.getItem('username')}:${atob(localStorage.getItem('password'))}`)}`,

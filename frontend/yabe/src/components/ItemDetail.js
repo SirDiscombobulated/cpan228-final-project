@@ -18,7 +18,7 @@ const ItemDetail = () => {
         const fetchItem = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:8080/store/api/items/${id}`, {
+                const response = await axios.get(`http://localhost:8080/api/items/${id}`, {
                     headers: {
                         "Authorization": "Basic " + btoa("admin:12345"), // Add your credentials here
                         "Content-Type": "application/json",

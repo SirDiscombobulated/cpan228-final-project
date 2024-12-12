@@ -17,8 +17,8 @@ const StockPage = ({ searchQuery }) => {
         try {
             setLoading(true);
             const url = query
-                ? `http://localhost:8080/store/api/filter/${query}`
-                : "http://localhost:8080/store/api/items";
+                ? `http://localhost:8080/api/items/filter/${query}`
+                : "http://localhost:8080/api/items";
             const response = await fetch(url, {
                 method: "GET",
                 headers: getAuthHeader(), // Use the getAuthHeader function
