@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController // Use @RestController instead of @Controller
 @RequestMapping("/store/api")
 public class UserController {
+
     private final UserService userService;
 
     @Autowired
@@ -31,13 +32,12 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public MyUser updateUser(@RequestBody MyUser user, @PathVariable String id) {
-        user.setId(id); // Ensure the user ID is set before updating
+    public MyUser updateUser(@RequestBody() MyUser user, @PathVariable String id) {
         return userService.updateUser(user);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MyUser> register(@RequestBody MyUser user) {
+    public ResponseEntity<MyUser> register(@RequestBody() MyUser user) {
         MyUser newUser = userService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
@@ -49,6 +49,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MyUser user) {
+        // Add login logic here
         boolean isAuthenticated = userService.authenticate(user.getUsername(), user.getPassword());
         if (isAuthenticated) {
             return ResponseEntity.ok("Login Successful");

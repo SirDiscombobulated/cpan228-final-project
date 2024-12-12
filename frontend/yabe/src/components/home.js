@@ -1,5 +1,6 @@
 import React from 'react';
-import '../App.css'; //
+import ItemList from './itemList';
+import '../App.css';
 
 const HomePage = ({ sName }) => {
     return (
@@ -9,7 +10,7 @@ const HomePage = ({ sName }) => {
                     <div className="card mx-auto" style={{ maxWidth: '600px' }}>
                         <div className="card-body">
                             <img
-                                src="/css/images/logo2.PNG"
+                                src=""
                                 className="img-fluid"
                                 alt="Store Logo"
                             />
@@ -24,6 +25,7 @@ const HomePage = ({ sName }) => {
                             </a>
                         </div>
                     </div>
+                    <ItemList /> {/* Use the ItemList component */}
                 </div>
             </div>
         </main>
