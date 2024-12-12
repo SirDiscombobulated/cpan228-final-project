@@ -58,6 +58,7 @@ const App = () => {
             <Navbar />
             <main>
                 <Routes>
+
                     <Route path="/item/:id" element={<ItemDetail />} />
                     <Route path="/store/home" element={<HomePage />} />
                     <Route
