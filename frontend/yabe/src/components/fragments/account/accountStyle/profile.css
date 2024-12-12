@@ -2,20 +2,24 @@
     position: fixed;
     top: 10px;
     right: 10px;
-    display: inline-block;
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
 }
 
 .profile-icon {
     font-size: 2rem;
     cursor: pointer;
     color: #333;
+    margin-right: 10px; /* Add some space between the icon and the username */
 }
+
 .profile-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
+
 .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -51,3 +55,9 @@
     color: #74bf4e;
 }
 
+.username {
+    display: flex;
+    margin-top: -7px;
+    margin-left: -7px;
+
+}

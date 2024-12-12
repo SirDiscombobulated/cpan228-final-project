@@ -12,6 +12,14 @@ import ProfileBar from "./components/fragments/profile";
 import ProfilePage from "./components/fragments/profilePage";
 import ItemDetail from "./components/ItemDetail";
 import { useState } from 'react';
+import Stock from "./components/stock";
+import ProfileBar from "./components/fragments/account/profile";
+import AccountPage from "./components/fragments/account/account";
+import AccountInfo from "./components/fragments/account/accountInfo";
+import Wishlist from "./components/fragments/account/wishlist";
+import EditProfile from "./components/fragments/account/editProfile";
+import React from "react";
+import BannedPage from "./components/auth/banned";
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState(""); // Define searchQuery state
@@ -24,6 +32,9 @@ const App = () => {
     return (
         <Router>
             <ProfileBar />
+            <Header />
+            <Navbar />
+            <ProfileBar />
             <Header handleSearch={handleSearch} />
             <Navbar />
             <main>
@@ -35,6 +46,13 @@ const App = () => {
                         element={<StockPage searchQuery={searchQuery} />} // Pass searchQuery to StockPage
                     />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/store/admin/add-item" element={<AddItemPage />} />
+                    <Route path="/account" element={<AccountPage />} />
+                    <Route path="/edit-profile" element={<EditProfile />} />
+                    <Route path="/account-info" element={<AccountInfo />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/banned" element={<BannedPage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/store/admin/add-item" element={<AddItemPage />} />
                     <Route path="/profile" element={<ProfilePage />} />

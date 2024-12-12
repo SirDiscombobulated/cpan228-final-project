@@ -51,14 +51,6 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-    // delete an item by ID
-    public void deleteById(String itemId) {
-        if(!itemRepository.existsById(itemId)) {
-            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Delete failed!");
-        }
-        itemRepository.deleteById(itemId);
-    }
-
     //find by status and title
     public List<Item> getFilteredItems(String status, String title) {
         return itemRepository.findByIgnoreCaseStatusContainingAndIgnoreCaseTitleContaining(status, title);

@@ -4,9 +4,11 @@ import './styling/itemList.css';
 import electronicsImg from './icons/electronics.png';
 import kitchenImg from './icons/kitchen.png';
 import clothingImg from './icons/clothing.png';
+import InterestedButton from './interestedButton'; // Import the InterestedButton component
 
 const ItemList = () => {
     const [items, setItems] = useState([]);
+    const username = localStorage.getItem('username'); // Get current username
 
     useEffect(() => {
         fetchData('http://localhost:8080/store/api/featured')
@@ -47,7 +49,11 @@ const ItemList = () => {
                                 <p className="card-text"><strong>Price: </strong>${item.price.toFixed(2)}</p>
                                 <p className="card-text"><strong>Status: </strong>{item.status}</p>
                                 <p className="card-text"><strong>Created At: </strong>{new Date(item.createdAt).toLocaleString()}</p>
-                                <button className="btn btn-primary mt-3">Interested</button>
+                                <InterestedButton
+                                    isInterested={item.interested.includes(username)}
+                                    username={username}
+                                    itemId={item.id}
+                                />
                             </div>
                         </div>
                     </div>

@@ -13,6 +13,37 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const data = {
+            username: username,
+            password: password,
+            role: "USER",
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            email: email,
+            bio: bio,
+            wishlist: []
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                setMessage('Registration successful!');
+            } else {
+                setMessage('Registration failed!');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setMessage('An error occurred. Please try again.');
+        }
     };
 
     return (
@@ -80,7 +111,7 @@ const RegisterPage = () => {
                         Register
                     </button>
                     <div className="login-link">
-                        <a href="/login/login">Back to Login</a>
+                        <a href="/login">Back to Login</a>
                     </div>
                 </form>
             </div>
