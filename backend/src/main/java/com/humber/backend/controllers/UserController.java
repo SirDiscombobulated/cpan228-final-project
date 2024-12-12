@@ -2,7 +2,6 @@
 package com.humber.backend.controllers;
 
 import com.humber.backend.models.MyUser;
-import com.humber.backend.services.ItemService;
 import com.humber.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
