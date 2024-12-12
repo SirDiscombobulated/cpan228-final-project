@@ -1,30 +1,28 @@
 import React from 'react';
 import ItemList from './itemList';
-import '../App.css';
+import './styling/global.css';
+import FeaturedCarousel from "./fragments/featuredCarousel";
 
 const HomePage = ({ sName }) => {
     return (
         <main>
             <div className="content">
                 <div className="container mt-5">
-                    <div className="card" style={{ maxWidth: '600px' }}>
-                        <div className="card-body">
-                            <img
-                                src=""
-                                className="img-fluid"
-                                alt="Store Logo"
-                            />
-                            <h5 className="card-title">
-                                Welcome to {sName || 'Our Store'}!
-                            </h5>
+                    <div className="card welcome-card h-100 shadow-lg">
+                        <div className="card-body text-center">
+                            <h1 className="card-title">
+                                Welcome to yabet!
+                            </h1>
                             <p className="card-text">
-                                Become a supervillain by stealing our food!
+                                Bid to your hearts contents!
                             </p>
-                            <a href="/store/stock/1" className="btn btn-primary">
-                                Stock
+                            <FeaturedCarousel />
+                            <a href="/store/stock/1" className="btn btn-primary btn-lg">
+                                View Stock
                             </a>
                         </div>
                     </div>
+
                     <ItemList />
                 </div>
             </div>

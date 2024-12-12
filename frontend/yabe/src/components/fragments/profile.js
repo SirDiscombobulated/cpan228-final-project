@@ -39,6 +39,7 @@ const ProfileBar = () => {
                     {user ? (
                         <>
                             <span className="dropdown-item">Welcome back, {user.username}!</span>
+                            <a href="/profile" className="dropdown-item">Profile</a>
                             <button onClick={handleLogout} className="dropdown-item">Logout</button>
                         </>
                     ) : (
