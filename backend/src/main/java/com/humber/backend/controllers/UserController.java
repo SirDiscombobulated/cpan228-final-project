@@ -52,16 +52,6 @@ public class UserController {
         return ResponseEntity.ok("Success! User has been updated!");
     }
 
-    // delete user
-    @DeleteMapping("/users/{username}")
-    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
-        int statusCode = userService.deleteUser(username);
-        if (statusCode == -1) {
-            return ResponseEntity.badRequest().body("Error! Username cannot be found");
-        }
-        return ResponseEntity.ok("Success! User has been deleted!");
-    }
-
     // login user
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MyUser user) {
@@ -80,8 +70,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("GET method is not supported for /login");
     }
 
-    // append item to wishlist
-    @PutMapping("/wishlist/{username}/{itemId}")
+    // append item to wishlist (and interested)
+    @PutMapping("/wishlist/add/{username}/{itemId}")
     public ResponseEntity<String> addWishlist(@PathVariable("username") String username, @PathVariable("itemId") String itemId) {
         int statusCode = userService.addToWishlist(username, itemId);
         if (statusCode == -1) {
@@ -89,6 +79,38 @@ public class UserController {
         } if (statusCode == -2) {
             return ResponseEntity.badRequest().body("Error! Item not found");
         }
-        return ResponseEntity.ok("Success! Wishlist and interested have both been updated!");
+        return ResponseEntity.ok("Success! Added to wishlist and interested!");
+    }
+
+    // remove item from wishlist (and interested)
+    @PutMapping("/wishlist/remove/{username}/{itemId}")
+    public ResponseEntity<String> removeWishlist(@PathVariable("username") String username, @PathVariable("itemId") String itemId) {
+        int statusCode = userService.removeFromWishlist(username, itemId);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username not found");
+        } if (statusCode == -2) {
+            return ResponseEntity.badRequest().body("Error! Item not found");
+        }
+        return ResponseEntity.ok("Success! Removed from wishlist and interested!");
+    }
+
+    //delete an item
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable String id) {
+        int statusCode = userService.deleteByItemId(id);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Item not found");
+        }
+        return ResponseEntity.ok("Success! Item deleted successfully!");
+    }
+
+    // delete user
+    @DeleteMapping("/users/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
+        int statusCode = userService.deleteUser(username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been deleted!");
     }
 }
