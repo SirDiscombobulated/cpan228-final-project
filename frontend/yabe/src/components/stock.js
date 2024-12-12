@@ -17,7 +17,7 @@ const Stock = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.get(`/store/api/items/${currentPage}`, {
+                const response = await axios.get(`'http://localhost:8080/store/stock/1'`, {
                     params: {
                         searchedCategory,
                         searchedPrice,
