@@ -59,14 +59,9 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
-    //find by title
-    public List<Item> getFilteredItems(String title) {
-        return itemRepository.findByTitleContaining(title);
-    }
-
-    // find by category and price
-    public List<Item> getFilteredItems(String category, Double price) {
-        return itemRepository.findByIgnoreCaseCategoryAndPrice(category, price);
+    //find by status and title
+    public List<Item> getFilteredItems(String status, String title) {
+        return itemRepository.findByIgnoreCaseStatusContainingAndIgnoreCaseTitleContaining(status, title);
     }
 
     // finds the top 9 items in ItemRepository with the largest array size for interested

@@ -13,11 +13,14 @@ import java.util.List;
 public interface ItemRepository extends MongoRepository<Item, String> {
     List<Item> findByIgnoreCaseCategoryAndPrice(String category, Double price);
 
-    List<Item> findByTitleContaining(String title);
+    List<Item> findByIgnoreCaseTitleContaining(String title);
 
     @Aggregation(pipeline = {
             "{ '$project': { 'id': 1, 'title': 1, 'category': 1, 'price': 1, 'description': 1, 'createdAt': 1, 'status': 1, 'ownerId': 1, 'interested': 1, 'interestedCount': { $size: '$interested' } } }",
             "{ '$sort': { 'interestedCount': -1 } }",
             "{ '$limit': 9 }"})
     List<Item> findTopInterestedItems();
+
+    List<Item> findByIgnoreCaseStatusContainingAndIgnoreCaseTitleContaining(String status, String title);
+
 }

@@ -69,7 +69,7 @@ public class ItemController {
     //search items with a key phrase within title
     @GetMapping("/filter/{keyword}")
     public ResponseEntity<List<Item>> getFilteredItems(@PathVariable String keyword) {
-        return ResponseEntity.ok(itemService.getFilteredItems(keyword));
+        return ResponseEntity.ok(itemService.getFilteredItems("Available", keyword));
     }
 
     //featured items
