@@ -53,6 +53,7 @@ const LoginPage = () => {
                     setMessage('User is banned. Redirecting to banned page...');
                     setTimeout(() => {
                         navigate('/banned'); // Correct route for banned page
+                        window.location.reload(); // Refresh the page
                     }, 500);
                     return;
                 }
@@ -68,6 +69,7 @@ const LoginPage = () => {
                 // Redirect to homepage
                 setTimeout(() => {
                     navigate('/store/home'); // Correct route for homepage
+                    window.location.reload(); // Refresh the page
                 }, 500);
 
             } else {
