@@ -1,0 +1,37 @@
+.profile-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+
+
+}
+
+.profile-page h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+.profile-page p {
+    font-size: 1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+.profile-page h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-top: 20px;
+}
+
+.profile-page ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.profile-page ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-page ul li:last-child {
+    border-bottom: none;
+}

@@ -34,7 +34,7 @@ const ItemList = () => {
 
     return (
         <div className="items-list mt-5">
-            <h2>Available Items</h2>
+            <center><h2>FEATURED</h2></center>
             <div className="row">
                 {items.map(item => (
                     <div key={item.id} className="col-md-3 mb-4">

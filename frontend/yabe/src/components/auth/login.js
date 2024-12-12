@@ -27,6 +27,12 @@ const LoginPage = () => {
                 localStorage.setItem('username', username);
                 localStorage.setItem('password', btoa(password));
 
+                // Redirect to homepage
+                setTimeout(()=>{
+                    window.location.href = '/store/home';
+
+                }, 500);
+
             } else {
                 setError(true);
                 setMessage('Invalid username or password');
@@ -90,11 +96,6 @@ const LoginPage = () => {
                         <a href="/register">Register</a>
                     </div>
                 </form>
-
-                {/* Logout Button */}
-                <button onClick={handleLogout} className="logout-button">
-                    Log out
-                </button>
             </div>
         </div>
     );
