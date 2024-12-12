@@ -7,70 +7,32 @@ import Footer from "./components/fragments/footer";
 import AddItemPage from "./components/add-item";
 import Register from "./components/auth/register";
 import LoginPage from "./components/auth/login";
-import Stock from "./components/stock";
+import StockPage from "./components/stock"; // Import StockPage
 import ProfileBar from "./components/fragments/profile";
 import ProfilePage from "./components/fragments/profilePage";
 import ItemDetail from "./components/ItemDetail";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const App = () => {
-    const [searchQuery, setSearchQuery] = useState(""); // Shared search state
-    const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(""); // Define searchQuery state
 
-    const fetchItems = async (query = "") => {
-        try {
-            setLoading(true);
-            const url = query
-                ? `http://localhost:8080/store/api/filter/${query}`
-                : "http://localhost:8080/store/api/featured";
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Basic " + btoa("admin:12345"), // Replace with your credentials
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`Failed to fetch items. Status: ${response.status}`);
-            }
-            const data = await response.json();
-            setItems(data);
-            setError(null);
-        } catch (err) {
-            console.error("Error fetching items:", err);
-            setError("Failed to load items. Please try again.");
-        } finally {
-            setLoading(false);
-        }
+    // Update searchQuery globally
+    const handleSearch = (query) => {
+        setSearchQuery(query);
     };
-
-    // Fetch default items when the app loads
-    useEffect(() => {
-        fetchItems();
-    }, []);
 
     return (
         <Router>
             <ProfileBar />
-            <Header handleSearch={fetchItems} /> {/* Pass fetchItems to Header */}
+            <Header handleSearch={handleSearch} />
             <Navbar />
             <main>
                 <Routes>
-
                     <Route path="/item/:id" element={<ItemDetail />} />
                     <Route path="/store/home" element={<HomePage />} />
                     <Route
                         path="/store/stock"
-                        element={
-                            <Stock
-                                items={items}
-                                loading={loading}
-                                error={error}
-                                fetchItems={fetchItems}
-                            />
-                        }
+                        element={<StockPage searchQuery={searchQuery} />} // Pass searchQuery to StockPage
                     />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<Register />} />

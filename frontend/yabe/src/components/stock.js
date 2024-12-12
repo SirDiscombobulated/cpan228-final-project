@@ -1,11 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 
-const StockPage = ({ items, loading, error }) => {
+const StockPage = ({ searchQuery }) => {
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+
+    const fetchItems = async (query = "") => {
+        try {
+            setLoading(true);
+            const url = query
+                ? `http://localhost:8080/store/api/filter/${query}`
+                : "http://localhost:8080/store/api/featured";
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + btoa("admin:12345"), // Replace with your credentials
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to fetch items. Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setItems(data);
+            setError(null);
+        } catch (err) {
+            console.error("Error fetching items:", err);
+            setError("Failed to load items. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchItems(searchQuery); // Fetch items whenever the search query changes
+    }, [searchQuery]);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = items.slice(startIndex, startIndex + itemsPerPage);

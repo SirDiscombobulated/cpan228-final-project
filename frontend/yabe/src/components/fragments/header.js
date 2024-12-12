@@ -9,8 +9,8 @@ const Header = ({ handleSearch }) => {
 
     const onSearch = (e) => {
         e.preventDefault();
-        handleSearch(searchQuery); // Trigger the search
-        navigate("/store/stock"); // Redirect to StockPage
+        handleSearch(searchQuery); // Pass the search query to the parent
+        navigate("/store/stock"); // Redirect to the StockPage
     };
 
     return (
