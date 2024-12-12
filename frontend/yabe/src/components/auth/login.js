@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './authStyle/login.css';
 
 const LoginPage = () => {
@@ -6,6 +7,29 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
+
+    const checkBanStatus = async (username) => {
+        try {
+            const response = await fetch(`http://localhost:8080/isBanned/${username}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.text();
+                console.log("Ban status response:", data); // Log the response for debugging
+                return data === "User is banned!";
+            }
+            console.log("Ban status check failed, non-OK response");
+            return false;
+        } catch (err) {
+            console.error('Error checking ban status:', err);
+            return false;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,6 +44,20 @@ const LoginPage = () => {
             });
 
             if (response.ok) {
+                const isBanned = await checkBanStatus(username);
+                console.log("Is user banned:", isBanned); // Add this log to check ban status
+
+                if (isBanned) {
+                    console.log('Redirecting to banned page...');
+                    setError(true);
+                    setMessage('User is banned. Redirecting to banned page...');
+                    setTimeout(() => {
+                        navigate('/banned'); // Correct route for banned page
+                    }, 500);
+                    return;
+                }
+
+                console.log('User is not banned, proceeding to homepage');
                 setError(false);
                 setMessage('Login successful');
 
@@ -28,21 +66,22 @@ const LoginPage = () => {
                 localStorage.setItem('password', btoa(password));
 
                 // Redirect to homepage
-                setTimeout(()=>{
-                    window.location.href = '/store/home';
-
+                setTimeout(() => {
+                    navigate('/store/home'); // Correct route for homepage
                 }, 500);
 
             } else {
+                console.log('Invalid username or password');
                 setError(true);
                 setMessage('Invalid username or password');
             }
         } catch (err) {
+            console.log('Error during login process:', err);
             setError(true);
             setMessage('An error occurred. Please try again.');
         }
     };
-    // Logout
+
     const handleLogout = () => {
         localStorage.removeItem('username');
         localStorage.removeItem('password');
