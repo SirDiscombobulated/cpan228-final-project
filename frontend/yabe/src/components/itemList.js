@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { fetchData } from './auth/auth';
+import './styling/itemList.css';
+import electronicsImg from './icons/electronics.png';
+import kitchenImg from './icons/kitchen.png';
+import clothingImg from './icons/clothing.png';
+
 const ItemList = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        fetchData('http://localhost:8080/store/api/items')
+        fetchData('http://localhost:8080/store/api/featured')
             .then(data => {
                 if (data) setItems(data);
             })
@@ -13,21 +18,41 @@ const ItemList = () => {
             });
     }, []);
 
+    // Helper function to get the image based on category
+    const getCategoryImage = (category) => {
+        switch (category) {
+            case 'Electronics':
+                return electronicsImg;
+            case 'Home & Kitchen':
+                return kitchenImg;
+            case 'Clothing & Apparel':
+                return clothingImg;
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className="items-list mt-5">
-            <h2>Available Items</h2>
-            <ul className="list-group">
+            <center><h2>FEATURED</h2></center>
+            <div className="row">
                 {items.map(item => (
-                    <li key={item.id} className="list-group-item">
-                        <h3>{item.title}</h3>
-                        <p>Category: {item.category}</p>
-                        <p>Description: {item.description}</p>
-                        <p>Price: ${item.price.toFixed(2)}</p>
-                        <p>Status: {item.status}</p>
-                        <p>Created At: {new Date(item.createdAt).toLocaleString()}</p>
-                    </li>
+                    <div key={item.id} className="col-md-3 mb-4">
+                        <div className="card h-100">
+                            <img src={getCategoryImage(item.category)} className="card-img-top" alt={item.category} />
+                            <div className="card-body">
+                                <h3 className="card-title">{item.title}</h3>
+                                <p className="card-text"><strong>Category: </strong>{item.category}</p>
+                                <p className="card-text"><strong>Description: </strong>{item.description}</p>
+                                <p className="card-text"><strong>Price: </strong>${item.price.toFixed(2)}</p>
+                                <p className="card-text"><strong>Status: </strong>{item.status}</p>
+                                <p className="card-text"><strong>Created At: </strong>{new Date(item.createdAt).toLocaleString()}</p>
+                                <button className="btn btn-primary mt-3">Interested</button>
+                            </div>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

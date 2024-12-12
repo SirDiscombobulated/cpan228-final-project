@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './components/styling/global.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from "./components/home";
@@ -10,7 +9,7 @@ import Register from "./components/auth/register";
 import LoginPage from "./components/auth/login";
 import Stock from "./components/stock";
 import ProfileBar from "./components/fragments/profile";
-
+import ProfilePage from "./components/fragments/profilePage";
 
 const App = () => {
     return (
@@ -26,11 +25,9 @@ const App = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<Register/>} />
                     <Route path="/store/admin/add-item" element={<AddItemPage/>} />
+                    <Route path="/profile" element={<ProfilePage/>} />
 
                 </Routes>
-
-
-
 
             </main>
 

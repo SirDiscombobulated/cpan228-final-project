@@ -45,12 +45,6 @@ const LoginPage = () => {
         setPassword('');
     };
 
-    const getAuthHeader = () => {
-        const user = localStorage.getItem('username');
-        const pass = localStorage.getItem('password');
-        return 'Basic ' + btoa(user + ':' + atob(pass));
-    };
-
     return (
         <div className="login-container">
             <div className="login-form">

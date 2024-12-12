@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { logout as performLogout } from '../auth/auth.js';
 import "./fragmentsStyle/profile.css";
 import profileIcon from "./profile.png";
 
@@ -18,23 +19,11 @@ const ProfileBar = () => {
     }, []);
 
     const handleLogout = async () => {
-        console.log("Logout button clicked");
-
-        // Clear localStorage
-        localStorage.removeItem('username');
-        localStorage.removeItem('password');
-
-        // Call the logout API
         try {
-            const response = await fetch("/logout", { method: "POST" });
-            if (response.ok) {
-                console.log("Logout successful, state updated");
-                setUser(null);
-                setIsOpen(false);
-                window.location.href = "/login";
-            } else {
-                console.error("Logout failed");
-            }
+            performLogout();
+            setUser(null);
+            setIsOpen(false);
+            window.location.href = "/login";
         } catch (error) {
             console.error("Error logging out:", error);
         }
@@ -50,6 +39,7 @@ const ProfileBar = () => {
                     {user ? (
                         <>
                             <span className="dropdown-item">Welcome back, {user.username}!</span>
+                            <a href="/profile" className="dropdown-item">Profile</a>
                             <button onClick={handleLogout} className="dropdown-item">Logout</button>
                         </>
                     ) : (
