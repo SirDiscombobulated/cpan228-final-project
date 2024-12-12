@@ -7,12 +7,10 @@ import Footer from "./components/fragments/footer";
 import AddItemPage from "./components/add-item";
 import Register from "./components/auth/register";
 import LoginPage from "./components/auth/login";
-import StockPage from "./components/stock"; // Import StockPage
-import ProfileBar from "./components/fragments/profile";
+import StockPage from "./components/stock";
 import ProfilePage from "./components/fragments/profilePage";
 import ItemDetail from "./components/ItemDetail";
 import { useState } from 'react';
-import Stock from "./components/stock";
 import ProfileBar from "./components/fragments/account/profile";
 import AccountPage from "./components/fragments/account/account";
 import AccountInfo from "./components/fragments/account/accountInfo";
@@ -31,9 +29,6 @@ const App = () => {
 
     return (
         <Router>
-            <ProfileBar />
-            <Header />
-            <Navbar />
             <ProfileBar />
             <Header handleSearch={handleSearch} />
             <Navbar />
