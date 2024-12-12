@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuthHeader } from '../auth/auth';
 
+// Profile
 function ProfilePage() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(false);

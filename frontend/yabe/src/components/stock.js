@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
-import { getAuthHeader } from "./auth/auth"; // Import the getAuthHeader function
+import { getAuthHeader } from "./auth/auth";
 import "./styling/global.css";
 import "./styling/stock.css";
 
@@ -37,8 +37,9 @@ const StockPage = ({ searchQuery }) => {
         }
     };
 
+    // Fetch items whenever the search query changes
     useEffect(() => {
-        fetchItems(searchQuery); // Fetch items whenever the search query changes
+        fetchItems(searchQuery); 
     }, [searchQuery]);
 
     const startIndex = (currentPage - 1) * itemsPerPage;

@@ -1,4 +1,4 @@
-// Function to get Basic Auth header
+// Get Basic Auth header
 export const getAuthHeader = () => {
     const username = localStorage.getItem('username');
     const password = localStorage.getItem('password');
@@ -13,7 +13,7 @@ export const getAuthHeader = () => {
     return {};
 };
 
-// Function to fetch data with Basic Authentication
+// Fetch data with Basic Authentication
 export const fetchData = async (url) => {
     try {
         const response = await fetch(url, {
@@ -33,7 +33,7 @@ export const fetchData = async (url) => {
     }
 };
 
-// Function to send data with Basic Authentication
+// Send data with Basic Authentication
 export const sendData = async (url, data) => {
     try {
         const response = await fetch(url, {
@@ -54,7 +54,7 @@ export const sendData = async (url, data) => {
     }
 };
 
-// Function to log out
+// Log out
 export const logout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('password');

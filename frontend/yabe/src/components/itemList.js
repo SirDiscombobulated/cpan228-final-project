@@ -4,11 +4,13 @@ import './styling/itemList.css';
 import electronicsImg from './icons/electronics.png';
 import kitchenImg from './icons/kitchen.png';
 import clothingImg from './icons/clothing.png';
-import InterestedButton from './interestedButton'; // Import the InterestedButton component
+import InterestedButton from './interestedButton';
 
+
+// Shows featured items
 const ItemList = () => {
     const [items, setItems] = useState([]);
-    const username = localStorage.getItem('username'); // Get current username
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
         fetchData('http://localhost:8080/api/items/featured')

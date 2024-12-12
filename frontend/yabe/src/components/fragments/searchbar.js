@@ -7,8 +7,8 @@ const SearchBar = ({ handleSearch }) => {
 
     const onSearch = (e) => {
         e.preventDefault(); // Prevent default form submission
-        handleSearch(searchQuery); // Pass the search query to App.js
-        navigate("/store/stock"); // Redirect to the StockPage
+        handleSearch(searchQuery); // Passes the search query to App.js
+        navigate("/store/stock");
     };
 
     return (

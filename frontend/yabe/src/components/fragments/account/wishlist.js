@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {fetchData, sendData } from '../../auth/auth';
 
+
 function Wishlist() {
     const [wishlist, setWishlist] = useState([]);
     const [item, setItem] = useState('');
