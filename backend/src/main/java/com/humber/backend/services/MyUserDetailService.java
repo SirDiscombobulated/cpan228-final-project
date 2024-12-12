@@ -20,8 +20,10 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User does not exist with username: " + username));
+        MyUser user = userRepository.findByUsername(username);
+        if(user == null) {
+            throw new UsernameNotFoundException("User does not exist");
+        }
         return new UserPrincipal(user);
     }
 }
