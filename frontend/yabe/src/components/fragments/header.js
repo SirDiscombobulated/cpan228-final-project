@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './fragmentsStyle/header.css';
-import yabeTLogo from './yabet.png';
+import yabeTLogo from '../fragments/fragmentsImages/yabet.png';
 
 const Header = () => {
     return (

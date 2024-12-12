@@ -15,6 +15,7 @@ import Wishlist from "./components/fragments/account/wishlist";
 import EditProfile from "./components/fragments/account/editProfile";
 import React from "react";
 import BannedPage from "./components/auth/banned";
+import ProfilePage from "./components/fragments/profilePage";
 
 const App = () => {
     return (
