@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAuthHeader, fetchData, sendData } from '../../auth/auth';
+import {fetchData, sendData } from '../../auth/auth';
 
 function Wishlist() {
     const [wishlist, setWishlist] = useState([]);
