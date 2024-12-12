@@ -113,4 +113,24 @@ public class UserController {
         }
         return ResponseEntity.ok("Success! User has been deleted!");
     }
+
+    //ban an user
+    @PutMapping("/users/ban/{username}")
+    public ResponseEntity<String> banUser(@PathVariable String username) {
+        int statusCode = userService.banUser(username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been banned!");
+    }
+
+    //unban an user
+    @PutMapping("/users/unban/{username}")
+    public ResponseEntity<String> unbanUser(@PathVariable String username) {
+        int statusCode = userService.unbanUser(username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been unbanned!");
+    }
 }

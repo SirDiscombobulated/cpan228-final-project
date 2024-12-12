@@ -150,4 +150,26 @@ public class UserService {
         userRepository.deleteById(deletedUser.getId());
         return 1;
     }
+
+    //ban a user by username
+    public int banUser(String username) {
+        MyUser user = userRepository.findByUsername(username);
+        if (user == null) {
+            return -1;
+        }
+        user.setRole("BANNED");
+        userRepository.save(user);
+        return 1;
+    }
+
+    //unban an user by username
+    public int unbanUser(String username) {
+        MyUser user = userRepository.findByUsername(username);
+        if (user == null) {
+            return -1;
+        }
+        user.setRole("USER");
+        userRepository.save(user);
+        return 1;
+    }
 }
