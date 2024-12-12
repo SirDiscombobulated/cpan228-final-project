@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController // Use @RestController instead of @Controller
-@RequestMapping("/store/api")
 public class UserController {
 
     private final UserService userService;
@@ -21,32 +20,49 @@ public class UserController {
         this.userService = userService;
     }
 
+    // get all users
     @GetMapping("/users")
     public List<MyUser> getUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("/user/{id}")
-    public MyUser getUser(@PathVariable("id") String id) {
-        return userService.getUser(id);
+    // get user by username
+    @GetMapping("/users/{username}")
+    public MyUser getUser(@PathVariable("username") String username) {
+        return userService.getUser(username);
     }
 
-    @PutMapping("/user/{id}")
-    public MyUser updateUser(@RequestBody() MyUser user, @PathVariable String id) {
-        return userService.updateUser(user);
-    }
-
+    // add user
     @PostMapping("/register")
-    public ResponseEntity<MyUser> register(@RequestBody() MyUser user) {
-        MyUser newUser = userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    public ResponseEntity<String> register(@RequestBody() MyUser user) {
+        int statusCode = userService.addUser(user);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username has been taken!");
+        }
+        return ResponseEntity.ok("Success! You have been registered!");
     }
 
-    @DeleteMapping("/user/{id}")
-    public void deleteUser(@PathVariable("id") String id) {
-        userService.deleteUser(id);
+    // update user by username
+    @PutMapping("/users/{username}")
+    public ResponseEntity<String> updateUser(@RequestBody() MyUser user, @PathVariable String username) {
+        int statusCode = userService.updateUser(user, username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been updated!");
     }
 
+    // delete user
+    @DeleteMapping("/users/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
+        int statusCode = userService.deleteUser(username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been deleted!");
+    }
+
+    // login user
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MyUser user) {
         // Add login logic here
@@ -58,6 +74,7 @@ public class UserController {
         }
     }
 
+    // sanity checking
     @GetMapping("/login")
     public ResponseEntity<String> handleGetLogin() {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("GET method is not supported for /login");
