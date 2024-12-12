@@ -27,19 +27,9 @@ public class UserController {
     }
 
     // get user by username
-    @GetMapping("/user/{username}")
+    @GetMapping("/users/{username}")
     public MyUser getUser(@PathVariable("username") String username) {
         return userService.getUser(username);
-    }
-
-    // update user by username
-    @PutMapping("/user/{username}")
-    public ResponseEntity<String> updateUser(@RequestBody() MyUser user, @PathVariable String username) {
-        int statusCode = userService.updateUser(user, username);
-        if (statusCode == -1) {
-            return ResponseEntity.badRequest().body("Error! Username cannot be found");
-        }
-        return ResponseEntity.ok("Success! User has been updated!");
     }
 
     // add user
@@ -52,10 +42,24 @@ public class UserController {
         return ResponseEntity.ok("Success! You have been registered!");
     }
 
+    // update user by username
+    @PutMapping("/users/{username}")
+    public ResponseEntity<String> updateUser(@RequestBody() MyUser user, @PathVariable String username) {
+        int statusCode = userService.updateUser(user, username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been updated!");
+    }
+
     // delete user
-    @DeleteMapping("/user/{username}")
-    public void deleteUser(@PathVariable("username") String id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/users/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
+        int statusCode = userService.deleteUser(username);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username cannot be found");
+        }
+        return ResponseEntity.ok("Success! User has been deleted!");
     }
 
     // login user

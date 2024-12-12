@@ -29,17 +29,6 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    //update an user by username (cannot change password)
-    public int updateUser(MyUser user, String username) {
-        MyUser myUser = userRepository.findByUsername(username);
-        if (myUser == null) {
-            return -1;
-        }
-        user.setPassword(myUser.getPassword());
-        userRepository.save(user);
-        return 1;
-    }
-
     //add user (cannot use existing username)
     public int addUser(MyUser user) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
@@ -50,9 +39,48 @@ public class UserService {
         return 1;
     }
 
+    //update an user by username
+    public int updateUser(MyUser updatedUser, String username) {
+        MyUser existingUser = userRepository.findByUsername(username);
+        if (existingUser == null) {
+            return -1;
+        }
+        if (!updatedUser.getUsername().isEmpty()) {
+            existingUser.setUsername(updatedUser.getUsername());
+        }
+        if (!updatedUser.getFirstName().isEmpty()) {
+            existingUser.setFirstName(updatedUser.getFirstName());
+        }
+        if (!updatedUser.getLastName().isEmpty()) {
+            existingUser.setLastName(updatedUser.getLastName());
+        }
+        if (!updatedUser.getEmail().isEmpty()) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (!updatedUser.getBio().isEmpty()) {
+            existingUser.setBio(updatedUser.getBio());
+        }
+        if (!updatedUser.getRole().isEmpty()) {
+            existingUser.setRole(updatedUser.getRole());
+        }
+        if (updatedUser.getPhoneNumber() != 0) {
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        }
+        if (updatedUser.getWishlist() != null && !updatedUser.getWishlist().isEmpty()) {
+            existingUser.setWishlist(updatedUser.getWishlist());
+        }
+        userRepository.save(existingUser);
+        return 1;
+    }
+
     //delete user
-    public void deleteUser(String id) {
-        userRepository.deleteById(id);
+    public int deleteUser(String username) {
+        MyUser deletedUser = userRepository.findByUsername(username);
+        if (userRepository.findByUsername(username) == null) {
+            return -1;
+        }
+        userRepository.deleteById(deletedUser.getId());
+        return 1;
     }
 
     //authenticate user
