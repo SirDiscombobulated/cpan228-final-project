@@ -10,10 +10,11 @@ import LoginPage from "./components/auth/login";
 import Stock from "./components/stock";
 import ProfileBar from "./components/fragments/account/profile";
 import AccountPage from "./components/fragments/account/account";
-
 import AccountInfo from "./components/fragments/account/accountInfo";
-import React from "react";
 import Wishlist from "./components/fragments/account/wishlist";
+import EditProfile from "./components/fragments/account/editProfile";
+import React from "react";
+
 
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
                     <Route path="/register" element={<Register/>} />
                     <Route path="/store/admin/add-item" element={<AddItemPage/>} />
                     <Route path="/account" element={<AccountPage/>} />
-                    {/*<Route path="/edit-profile" element={<EditProfile/>}/>*/}
+                    <Route path="/edit-profile" element={<EditProfile/>}/>
                     <Route path="/account-info" element={<AccountInfo/>}/>
                     <Route path="/wishlist" element={<Wishlist/>}/>
 

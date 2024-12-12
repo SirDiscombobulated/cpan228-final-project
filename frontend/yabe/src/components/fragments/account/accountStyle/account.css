@@ -35,3 +35,47 @@
 .profile-page ul li:last-child {
     border-bottom: none;
 }
+
+.account-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    background-color: #ffffff;
+}
+
+.account-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 500px;
+    text-align: center;
+}
+
+.account-link {
+    text-decoration: none;
+    display: block;
+}
+
+.account-button {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    background-color: #5ca03a;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.account-button:hover {
+    background-color: #74bf4e;
+}
+
+.account-title {
+    color: #5c5530;
+}
+
