@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
+import { getAuthHeader } from "./auth/auth"; // Import the getAuthHeader function
+import "./styling/global.css";
+import "./styling/stock.css";
 
 const StockPage = ({ searchQuery }) => {
     const [items, setItems] = useState([]);
@@ -15,13 +18,10 @@ const StockPage = ({ searchQuery }) => {
             setLoading(true);
             const url = query
                 ? `http://localhost:8080/store/api/filter/${query}`
-                : "http://localhost:8080/store/api/featured";
+                : "http://localhost:8080/store/api/items";
             const response = await fetch(url, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Basic " + btoa("admin:12345"), // Replace with your credentials
-                },
+                headers: getAuthHeader(), // Use the getAuthHeader function
             });
             if (!response.ok) {
                 throw new Error(`Failed to fetch items. Status: ${response.status}`);
@@ -59,13 +59,19 @@ const StockPage = ({ searchQuery }) => {
         setSortConfig({ key, direction });
 
         items.sort((a, b) => {
-            if (a[key] < b[key]) {
-                return direction === "asc" ? -1 : 1;
+            if (key === "createdAt") {
+                const dateA = new Date(a[key]);
+                const dateB = new Date(b[key]);
+                return direction === "asc" ? dateA - dateB : dateB - dateA;
+            } else {
+                if (a[key] < b[key]) {
+                    return direction === "asc" ? -1 : 1;
+                }
+                if (a[key] > b[key]) {
+                    return direction === "asc" ? 1 : -1;
+                }
+                return 0;
             }
-            if (a[key] > b[key]) {
-                return direction === "asc" ? 1 : -1;
-            }
-            return 0;
         });
     };
 
@@ -80,7 +86,7 @@ const StockPage = ({ searchQuery }) => {
     return (
         <div>
             <h1>Stock Items</h1>
-            <table border="1" style={{ width: "100%", textAlign: "left" }}>
+            <table>
                 <thead>
                 <tr>
                     <th onClick={() => sortItems("title")}>
@@ -93,9 +99,11 @@ const StockPage = ({ searchQuery }) => {
                         Price {sortConfig.key === "price" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
                     </th>
                     <th>Description</th>
-                    <th>Created At</th>
-                    <th onClick={() => sortItems("status")}>
-                        Status {sortConfig.key === "status" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                    <th onClick={() => sortItems("createdAt")}>
+                        Created At {sortConfig.key === "createdAt" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                    </th>
+                    <th onClick={() => sortItems("interested")}>
+                        Interested {sortConfig.key === "interested" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
                     </th>
                 </tr>
                 </thead>
@@ -111,7 +119,7 @@ const StockPage = ({ searchQuery }) => {
                         <td>${item.price ? item.price.toFixed(2) : "0.00"}</td>
                         <td>{item.description || "No description available"}</td>
                         <td>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</td>
-                        <td>{item.status || "Unknown"}</td>
+                        <td>{item.interested.length || 0}</td>
                     </tr>
                 ))}
                 </tbody>
