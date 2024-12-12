@@ -1,7 +1,7 @@
-// app-item.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAuthHeader, sendData } from './auth/auth';
+import "./styling/add-item.css";
 
 const AddItemPage = ({ itemId }) => {
     const [item, setItem] = useState({

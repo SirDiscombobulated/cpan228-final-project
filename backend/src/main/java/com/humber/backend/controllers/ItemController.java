@@ -44,17 +44,6 @@ public class ItemController {
         return ResponseEntity.ok(item.getId());
     }
 
-    //delete an item
-    @DeleteMapping("/items/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable String id) {
-        try {
-            itemService.deleteById(id);
-        } catch(IllegalStateException e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
-        return ResponseEntity.ok("Item deleted successfully!");
-    }
-
     //update item
     @PutMapping("/items/{id}")
     public ResponseEntity<String> updateItem(@PathVariable String id, @RequestBody Item item) {
