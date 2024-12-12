@@ -1,12 +1,17 @@
+//app-item.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddItemPage = ({ itemId }) => {
     const [item, setItem] = useState({
-        id: '',
-        name: '',
+        title: '',
         category: '',
-        price: ''
+        price: 0,
+        description: '',
+        createdAt: '',
+        status: 'Available',
+        ownerId: '',
+        interested: []
     });
     const [error, setError] = useState(null);
 
@@ -14,7 +19,7 @@ const AddItemPage = ({ itemId }) => {
     useEffect(() => {
         if (itemId) {
             // Assuming there's an API endpoint to fetch the item by id
-            axios.get(`/api/items/${itemId}`)
+            axios.get(`http://localhost:8080/store/api/items/${itemId}`)
                 .then(response => {
                     setItem(response.data);
                 })
@@ -34,7 +39,7 @@ const AddItemPage = ({ itemId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const endpoint = item.id ? `/api/items/${item.id}` : '/api/items';
+        const endpoint = item.id ? `http://localhost:8080/store/api/items/${item.id}` : 'http://localhost:8080/store/api/items';
         const method = item.id ? 'put' : 'post';
 
         axios({
@@ -61,11 +66,11 @@ const AddItemPage = ({ itemId }) => {
                 <form onSubmit={handleSubmit}>
                     <input type="hidden" name="id" value={item.id} />
                     <div>
-                        <label>Name:
+                        <label>Title:
                             <input
                                 type="text"
-                                name="name"
-                                value={item.name}
+                                name="title"
+                                value={item.title}
                                 onChange={handleChange}
                             />
                         </label>
@@ -86,6 +91,45 @@ const AddItemPage = ({ itemId }) => {
                                 type="number"
                                 name="price"
                                 value={item.price}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>Description:
+                            <textarea
+                                name="description"
+                                value={item.description}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>Created At:
+                            <input
+                                type="datetime-local"
+                                name="createdAt"
+                                value={item.createdAt}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>Status:
+                            <input
+                                type="text"
+                                name="status"
+                                value={item.status}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label>Owner ID:
+                            <input
+                                type="text"
+                                name="ownerId"
+                                value={item.ownerId}
                                 onChange={handleChange}
                             />
                         </label>
