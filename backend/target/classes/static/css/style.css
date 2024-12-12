@@ -1,0 +1,113 @@
+.content{
+    margin-top:80px;
+
+    min-height: 65vh;
+}
+
+h1{
+    color: #f6363d;
+}
+
+.card{
+    margin-top: 80px;
+    width: 320px;
+    margin: 100px auto;
+}
+
+.card-body{
+    padding: 10px;
+    margin-top:80px;
+    text-align: center;
+}
+
+#restaurant-title{
+    color: #b10e0e;
+}
+
+header{
+    position: fixed;
+    top:0;
+    z-index: 1;
+    width: 100%;
+    padding: 10px 100px;
+    background-color:darkred;
+}
+
+header .nav-item a{
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/*pagination*/
+.pagination {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px 0; /* You can adjust this margin as needed */
+    width: 100%;
+}
+
+.pagination-info, .pagination-no{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.pagination-info div{
+     margin: 5px;
+     padding: 10px;
+     border: 1px solid lightgrey;
+}
+.pagination-no div{
+    margin: 5px;
+    padding: 10px;
+}
+
+.footer{
+    text-align: center;
+    width: 100%;
+}
+
+footer .card-header{
+    background-color: #810418;
+    color:white;
+}
+
+.footer-text{
+    color:white;
+}
+#slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+#slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+#slider img {
+    width: 100%;
+    flex-shrink: 0;
+}
+.button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+.button.left {
+    left: 10px;
+}
+.button.right {
+    right: 10px;
+}
+
+#search{
+    border-color: black;
+    border-width: medium;
+}
