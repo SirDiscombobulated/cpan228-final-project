@@ -1,0 +1,25 @@
+.items-list .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.items-list .col-md-3 {
+    flex: 1 1 25%;
+    max-width: 25%;
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
+.items-list .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.items-list .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
