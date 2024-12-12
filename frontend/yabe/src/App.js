@@ -8,6 +8,7 @@ import AddItemPage from "./components/add-item";
 import Register from "./components/auth/register";
 import LoginPage from "./components/auth/login";
 import Stock from "./components/stock";
+import ProfilePage from "./components/fragments/profilePage";
 import ProfileBar from "./components/fragments/account/profile";
 import AccountPage from "./components/fragments/account/account";
 import AccountInfo from "./components/fragments/account/accountInfo";
@@ -27,7 +28,8 @@ const App = () => {
                     <Route path="/store/home" element={<HomePage />} />
                     <Route path="/store/stock/1" element={<Stock />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/register" element={<Register/>} />
+                    <Route path="/profile" element={<ProfilePage/>} />
                     <Route path="/store/admin/add-item" element={<AddItemPage />} />
                     <Route path="/account" element={<AccountPage />} />
                     <Route path="/edit-profile" element={<EditProfile />} />
@@ -35,7 +37,9 @@ const App = () => {
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/banned" element={<BannedPage />} />
                 </Routes>
+
             </main>
+
             <Footer />
         </Router>
     );
