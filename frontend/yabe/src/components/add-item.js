@@ -1,6 +1,7 @@
-//app-item.js
+// app-item.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getAuthHeader, sendData } from './auth/auth';
 
 const AddItemPage = ({ itemId }) => {
     const [item, setItem] = useState({
@@ -19,7 +20,7 @@ const AddItemPage = ({ itemId }) => {
     useEffect(() => {
         if (itemId) {
             // Assuming there's an API endpoint to fetch the item by id
-            axios.get(`http://localhost:8080/store/api/items/${itemId}`)
+            axios.get(`http://localhost:8080/store/api/items/${itemId}`, { headers: getAuthHeader() })
                 .then(response => {
                     setItem(response.data);
                 })
@@ -40,15 +41,17 @@ const AddItemPage = ({ itemId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const endpoint = item.id ? `http://localhost:8080/store/api/items/${item.id}` : 'http://localhost:8080/store/api/items';
-        const method = item.id ? 'put' : 'post';
+        const method = item.id ? 'PUT' : 'POST';
+        const username = localStorage.getItem('username'); // Get the username from localStorage
 
-        axios({
-            method: method,
-            url: endpoint,
-            data: item
-        })
-            .then(response => {
-                const newId = response.data; // Capture the returned ID
+        const itemData = {
+            ...item,
+            status: 'Available',
+            ownerId: username
+        };
+
+        sendData(endpoint, itemData)
+            .then(newId => {
                 console.log('New Item ID:', newId); // You can remove this after testing
                 window.location.href = `/store/items/${newId}`; // Redirect to the item details page or wherever needed
             })
@@ -112,26 +115,6 @@ const AddItemPage = ({ itemId }) => {
                                 type="datetime-local"
                                 name="createdAt"
                                 value={item.createdAt}
-                                onChange={handleChange}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>Status:
-                            <input
-                                type="text"
-                                name="status"
-                                value={item.status}
-                                onChange={handleChange}
-                            />
-                        </label>
-                    </div>
-                    <div>
-                        <label>Owner ID:
-                            <input
-                                type="text"
-                                name="ownerId"
-                                value={item.ownerId}
                                 onChange={handleChange}
                             />
                         </label>
