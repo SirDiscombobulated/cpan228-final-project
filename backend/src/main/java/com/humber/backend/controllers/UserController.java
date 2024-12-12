@@ -2,6 +2,7 @@
 package com.humber.backend.controllers;
 
 import com.humber.backend.models.MyUser;
+import com.humber.backend.services.ItemService;
 import com.humber.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,5 +79,17 @@ public class UserController {
     @GetMapping("/login")
     public ResponseEntity<String> handleGetLogin() {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("GET method is not supported for /login");
+    }
+
+    // append item to wishlist
+    @PutMapping("/wishlist/{username}/{itemId}")
+    public ResponseEntity<String> addWishlist(@PathVariable("username") String username, @PathVariable("itemId") String itemId) {
+        int statusCode = userService.addToWishlist(username, itemId);
+        if (statusCode == -1) {
+            return ResponseEntity.badRequest().body("Error! Username not found");
+        } if (statusCode == -2) {
+            return ResponseEntity.badRequest().body("Error! Item not found");
+        }
+        return ResponseEntity.ok("Success! Wishlist and interested have both been updated!");
     }
 }

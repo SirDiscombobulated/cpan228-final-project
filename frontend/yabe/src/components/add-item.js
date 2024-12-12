@@ -1,4 +1,3 @@
-// app-item.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAuthHeader, sendData } from './auth/auth';
