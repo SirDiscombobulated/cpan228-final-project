@@ -1,4 +1,4 @@
-package com.humber.backend.configs;
+package com.humber.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
