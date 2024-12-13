@@ -50,7 +50,6 @@ const App = () => {
                     <Route path="/banned" element={<BannedPage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/item-postings" element={<Wishlist />}/>
                     <Route path="/admin/admin-panel" element={<AdminPage/>}/>
                     <Route path="/modify-items" element={<UpdateItemForm/>}></Route>
                 </Routes>
