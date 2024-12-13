@@ -18,6 +18,8 @@ import Wishlist from "./components/fragments/account/wishlist";
 import EditProfile from "./components/fragments/account/editProfile";
 import React from "react";
 import BannedPage from "./components/auth/banned";
+import updatepage from "./components/updateitem"
+
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState(""); // Define searchQuery state
@@ -34,6 +36,7 @@ const App = () => {
             <Navbar />
             <main>
                 <Routes>
+                    <Route path="/update-item/:username/:itemId" component={updatepage} />
                     <Route path="/item/:id" element={<ItemDetail />} />
                     <Route path="/store/home" element={<HomePage />} />
                     <Route
