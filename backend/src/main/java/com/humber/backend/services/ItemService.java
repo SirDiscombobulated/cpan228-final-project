@@ -30,8 +30,20 @@ public class ItemService {
 
     // add an item
     public int addItem(Item item) {
+        if (item.getTitle() == null || item.getTitle().isEmpty()) {
+            return -1;
+        }
+        if (item.getCategory() == null || item.getCategory().isEmpty()) {
+            return -2;
+        }
         if (item.getPrice() <= 0) {
-            return -1; // fail: price too low
+            return -3; // fail: price too low
+        }
+        if (item.getDescription() == null || item.getDescription().isEmpty()) {
+            return -4;
+        }
+        if (item.getCreatedAt() == null) {
+            return -5;
         }
         itemRepository.save(item);
         return 1; // success

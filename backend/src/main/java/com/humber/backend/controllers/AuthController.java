@@ -38,7 +38,19 @@ public class AuthController {
         try {
             int statusCode = itemService.addItem(item);
             if (statusCode == -1) {
-                return ResponseEntity.badRequest().body("Error: Price must be greater than 0!");
+                return ResponseEntity.badRequest().body("Error: Title must be non-empty!");
+            }
+            if (statusCode == -2) {
+                return ResponseEntity.badRequest().body("Error: Category must be non-empty!");
+            }
+            if (statusCode == -3) {
+                return ResponseEntity.badRequest().body("Error: Price must be greater than zero!");
+            }
+            if (statusCode == -4) {
+                return ResponseEntity.badRequest().body("Error: Description must be non-empty!");
+            }
+            if (statusCode == -5) {
+                return ResponseEntity.badRequest().body("Error: Must select a Date!");
             }
         } catch(IllegalStateException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());

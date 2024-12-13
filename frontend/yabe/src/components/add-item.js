@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getAuthHeader, sendData } from './auth/auth';
+import { getAuthHeader } from './auth/auth';
 import "./styling/add-item.css";
 
 const AddItemPage = ({ itemId }) => {
@@ -12,7 +12,7 @@ const AddItemPage = ({ itemId }) => {
         createdAt: '',
         status: 'Available',
         ownerId: '',
-        interested: []
+        interested: [] // Ensure this is part of the initial state
     });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null); // State for success message
@@ -22,7 +22,12 @@ const AddItemPage = ({ itemId }) => {
         if (itemId) {
             axios.get(`http://localhost:8080/api/items/${itemId}`, { headers: getAuthHeader() })
                 .then(response => {
-                    setItem(response.data);
+                    const fetchedItem = response.data;
+                    setItem({
+                        ...fetchedItem,
+                        createdAt: fetchedItem.createdAt?.$date || fetchedItem.createdAt,
+                        interested: fetchedItem.interested || [] // Ensure the interested array is set
+                    });
                 })
                 .catch(err => {
                     setError('Failed to load item details');
@@ -47,7 +52,8 @@ const AddItemPage = ({ itemId }) => {
         const itemData = {
             ...item,
             status: 'Available',
-            ownerId: username
+            ownerId: username,
+            interested: item.interested // Ensure the array is included in the data sent to the backend
         };
 
         axios({
