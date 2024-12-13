@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { getAuthHeader } from '../auth/auth';
 
 const UpdateItemForm = () => {
     const [item, setItem] = useState({
@@ -28,8 +29,6 @@ const UpdateItemForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const username = 'test_example';
-        const password = '12345';
         const url = `http://localhost:8080/api/items/${item.ownerId}/${itemId}`;
 
         try {
@@ -37,10 +36,7 @@ const UpdateItemForm = () => {
                 url,
                 item,
                 {
-                    auth: {
-                        username,
-                        password,
-                    },
+                    headers: getAuthHeader(),
                 }
             );
             console.log('Item updated successfully:', response.data);
