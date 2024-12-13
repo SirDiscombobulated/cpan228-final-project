@@ -1,4 +1,3 @@
-// ItemCard.js
 import React from 'react';
 import InterestedButton from './interestedButton';
 import electronicsImg from './icons/electronics.png';

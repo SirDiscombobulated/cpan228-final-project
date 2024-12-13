@@ -1,8 +1,6 @@
-// wishlist.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getAuthHeader } from '../../auth/auth';
-// import './accountStyle/account.css';
-import "./accountStyle/wishlist.css"
+import './accountStyle/wishlist.css';
 import ItemCard from '../../itemCard';
 
 function Wishlist() {
@@ -30,7 +28,7 @@ function Wishlist() {
                     const items = await Promise.all(userData.wishlist.map(async (itemId) => {
                         const itemResponse = await fetch(`http://localhost:8080/api/items/${itemId}`, {
                             method: 'GET',
-                            headers: authHeader, // Ensure correct headers are used
+                            headers: authHeader,
                         });
 
                         if (itemResponse.ok) {
