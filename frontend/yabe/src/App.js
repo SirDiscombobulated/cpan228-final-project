@@ -19,6 +19,7 @@ import EditProfile from "./components/fragments/account/editProfile";
 import BannedPage from "./components/auth/banned";
 import React from "react";
 import AdminPage from "./components/admin/admin";
+import UpdateItemForm from "./components/admin/modifyItems";
 
 
 const App = () => {
@@ -49,9 +50,8 @@ const App = () => {
                     <Route path="/banned" element={<BannedPage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/item-postings" element={<Wishlist />}/>
                     <Route path="/admin/admin-panel" element={<AdminPage/>}/>
-                    <Route path="/"></Route>
+                    <Route path="/modify-items" element={<UpdateItemForm/>}></Route>
                 </Routes>
             </main>
             <Footer />
