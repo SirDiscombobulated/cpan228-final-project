@@ -95,7 +95,7 @@ const StockPage = ({ searchQuery }) => {
 
     return (
         <div >
-            <h1>Stock Items</h1>
+            <h1 className="stockheader">Stock Items</h1>
             {searchQuery && (
                 <p>
                     Showing results for: <strong>{searchQuery}</strong>
@@ -135,10 +135,10 @@ const StockPage = ({ searchQuery }) => {
                         <td>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</td>
                         <td>
                             <InterestedButton
-                                isInterested={item.interested.includes(username)}
+
+                            />                isInterested={item.interested.includes(username)}
                                 username={username}
                                 itemId={item.id}
-                            />
                         </td>
                     </tr>
                 ))}
