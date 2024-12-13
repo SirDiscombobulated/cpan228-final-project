@@ -87,7 +87,7 @@ const StockPage = ({ searchQuery }) => {
     }
 
     return (
-        <div>
+        <div >
             <h1>Stock Items</h1>
             <table>
                 <thead>

@@ -2,12 +2,12 @@
 
 /* Table styles */
 table {
-    width: auto; /* Set to auto instead of 100% */
-    text-align:center;
+    margin: 20px auto; /* Centers the table horizontally */
+    text-align: center;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #ffffff; /* White background */
-    color: #5c5530; /* Text color */
+    width: 80%; /* Optional: Adjust width for responsiveness */
+    background-color: #ffffff;
+    color: #5c5530;
 }
 
 th, td {
@@ -71,4 +71,8 @@ th:hover {
     text-align: center;
     font-size: 1.2rem;
     color: #7e7441; /* Text color for loading and error messages */
+}
+h1{
+    text-align: center;
+    text-decoration: underline;
 }
