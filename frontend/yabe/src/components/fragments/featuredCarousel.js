@@ -11,9 +11,9 @@ const FeaturedCarousel = () => {
     useEffect(() => {
         // Dummy data for the carousel
         const fetchItems = () => [
-            { id: 1, title: 'Item 1', description: 'Description 1', image: clothingImg },
-            { id: 2, title: 'Item 2', description: 'Description 2', image: kitchenImg },
-            { id: 3, title: 'Item 3', description: 'Description 3', image: electronicsImg },
+            { id: 1, image: clothingImg },
+            { id: 2, image: kitchenImg },
+            { id: 3, image: electronicsImg },
         ];
 
         const data = fetchItems();
@@ -48,10 +48,6 @@ const FeaturedCarousel = () => {
                                     alt={item.title}
                                     className="carousel-image"
                                 />
-                                <div className="carousel-caption">
-                                    <h3>{item.title}</h3>
-                                    <p>{item.description}</p>
-                                </div>
                             </div>
                         ))}
                     </div>

@@ -49,8 +49,8 @@ const App = () => {
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/banned" element={<BannedPage />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/store/admin/add-item" element={<AddItemPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/item-postings" element={<Wishlist />}/>
                 </Routes>
             </main>
             <Footer />

@@ -1,103 +1,79 @@
+// wishlist.js
 import React, { useState, useEffect } from 'react';
-import {fetchData, sendData } from '../../auth/auth';
+import { getAuthHeader } from '../../auth/auth';
+import './accountStyle/account.css';
+import "./accountStyle/wishlist.css"
+import ItemCard from '../../itemCard';
 
 function Wishlist() {
-    const [wishlist, setWishlist] = useState([]);
-    const [item, setItem] = useState('');
+    const [wishlistItems, setWishlistItems] = useState([]);
     const [error, setError] = useState(false);
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
-        const fetchWishlist = async () => {
-            const username = localStorage.getItem('username');
+        const fetchWishlistItems = async () => {
+            const authHeader = getAuthHeader();
+
             if (!username) {
                 setError(true);
                 return;
             }
 
             try {
-                const data = await fetchData(`http://localhost:8080/api/users/${username}`);
-                if (data && Array.isArray(data)) {
-                    setWishlist(data);
+                const userResponse = await fetch(`http://localhost:8080/api/users/${username}`, {
+                    method: 'GET',
+                    headers: authHeader,
+                });
+
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    const items = await Promise.all(userData.wishlist.map(async (itemId) => {
+                        const itemResponse = await fetch(`http://localhost:8080/api/items/${itemId}`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Basic ' + btoa('test_example:12345')
+                            }
+                        });
+
+                        if (itemResponse.ok) {
+                            return await itemResponse.json();
+                        } else {
+                            console.error('Error fetching item data:', itemResponse.statusText);
+                            return null;
+                        }
+                    }));
+                    setWishlistItems(items.filter(item => item !== null));
                 } else {
                     setError(true);
                 }
             } catch (err) {
-                console.error('Error fetching wishlist:', err);
+                console.error('Error fetching wishlist items:', err);
                 setError(true);
             }
         };
 
-        fetchWishlist();
-    }, []);
-
-    const addItem = async () => {
-        const username = localStorage.getItem('username');
-        if (!username || !item) {
-            setError(true);
-            return;
-        }
-
-        try {
-            const response = await sendData(`http://localhost:8080/api/users/${username}`, { item });
-            if (response) {
-                setWishlist([...wishlist, item]);
-                setItem('');
-            } else {
-                setError(true);
-            }
-        } catch (err) {
-            console.error('Error adding item:', err);
-            setError(true);
-        }
-    };
-
-    const removeItem = async (itemToRemove) => {
-        const username = localStorage.getItem('username');
-        if (!username) {
-            setError(true);
-            return;
-        }
-
-        try {
-            const response = await sendData(`http://localhost:8080/api/users/${username}`, { item: itemToRemove });
-            if (response) {
-                setWishlist(wishlist.filter(wishlistItem => wishlistItem !== itemToRemove));
-            } else {
-                setError(true);
-            }
-        } catch (err) {
-            console.error('Error removing item:', err);
-            setError(true);
-        }
-    };
+        fetchWishlistItems();
+    }, [username]);
 
     if (error) {
         return <div>Error loading wishlist. Please try again later.</div>;
     }
 
+    if (!wishlistItems.length) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="wishlist-page">
-            <h2>Your Wishlist</h2>
-            <ul>
-                {wishlist.length > 0 ? (
-                    wishlist.map((wishlistItem, index) => (
-                        <li key={index}>
-                            {wishlistItem}
-                            <button onClick={() => removeItem(wishlistItem)}>Remove</button>
-                        </li>
-                    ))
-                ) : (
-                    <li>No items in wishlist</li>
-                )}
-            </ul>
-            <div>
-                <input
-                    type="text"
-                    value={item}
-                    onChange={(e) => setItem(e.target.value)}
-                    placeholder="Add new item"
-                />
-                <button onClick={addItem}>Add</button>
+            <div className="wishlist-card">
+                <h1>Wishlist</h1>
+                <div className="row">
+                    {wishlistItems.map(item => (
+                        <div key={item.id} className="col-md-3 mb-4">
+                            <ItemCard item={item} username={username} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

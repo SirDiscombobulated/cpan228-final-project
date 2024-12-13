@@ -54,16 +54,6 @@ function AccountInfo() {
                 <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
                 <p><strong>Email:</strong> {userData.email}</p>
                 <p><strong>Bio:</strong> {userData.bio}</p>
-                <h2>Wishlist</h2>
-                <ul>
-                    {userData.wishlist && userData.wishlist.length > 0 ? (
-                        userData.wishlist.map((item, index) => (
-                            <li key={index}>{item}</li>
-                        ))
-                    ) : (
-                        <li>No items in wishlist</li>
-                    )}
-                </ul>
             </div>
         </div>
     );

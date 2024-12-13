@@ -58,6 +58,12 @@ public class AuthController {
         return ResponseEntity.ok(itemService.getTopInterestedItems());
     }
 
+    //get all items belonging to a username
+    @GetMapping("/items/owner/{username}")
+    public ResponseEntity<List<Item>> getOwnerItems(@PathVariable String username) {
+        return ResponseEntity.ok(itemService.getOwnerItems(username));
+    }
+
     // append item to wishlist (and interested)
     @PutMapping("/wishlist/add/{username}/{itemId}")
     public ResponseEntity<String> addWishlist(@PathVariable("username") String username, @PathVariable("itemId") String itemId) {

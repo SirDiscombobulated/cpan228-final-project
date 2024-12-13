@@ -63,12 +63,8 @@ public class ItemService {
     public List<Item> getTopInterestedItems() {
         return itemRepository.findTopInterestedItems(); }
 
-    // paginate records
-    public Page<Item> getPaginatedItems(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
-                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return itemRepository.findAll(pageable);
+    //find all items based on ownerId
+    public List<Item> getOwnerItems(String username) {
+        return itemRepository.findItemByOwnerId(username);
     }
 }

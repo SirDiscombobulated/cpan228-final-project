@@ -14,14 +14,9 @@ const HomePage = ({ sName }) => {
                                 Welcome to yabet!
                             </h1>
                             <FeaturedCarousel />
-
-                            <a href="/store/stock/1" className="btn btn-primary btn-lg">
-                                View Stock
-                            </a>
                         </div>
                     </div>
-
-                    <ItemList />
+                    <ItemList url="http://localhost:8080/api/items/featured" />
                 </div>
             </div>
         </main>

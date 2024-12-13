@@ -13,6 +13,9 @@ const AccountPage = () => {
                 <Link to="/edit-profile" className="account-link">
                     <button className="account-button">Edit Profile</button>
                 </Link>
+                <Link to="/item-postings" className="account-link">
+                    <button className="account-button">Item Postings</button>
+                </Link>
                 <Link to="/wishlist" className="account-link">
                     <button className="account-button">Wishlist</button>
                 </Link>
