@@ -12,6 +12,8 @@ const UpdateItemForm = () => {
         ownerId: '',
     });
 
+    const [itemId, setItemId] = useState('');
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setItem((prevItem) => ({
@@ -20,11 +22,15 @@ const UpdateItemForm = () => {
         }));
     };
 
+    const handleItemIdChange = (e) => {
+        setItemId(e.target.value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const username = 'test_example';
         const password = '12345';
-        const url = 'http://localhost:8080/api/items/test_example/675b4ce58d3af270ca2afe76';
+        const url = `http://localhost:8080/api/items/${item.ownerId}/${itemId}`;
 
         try {
             const response = await axios.put(
@@ -91,6 +97,13 @@ const UpdateItemForm = () => {
                 placeholder="Owner ID"
                 value={item.ownerId}
                 onChange={handleChange}
+            />
+            <input
+                type="text"
+                name="itemId"
+                placeholder="Item ID"
+                value={itemId}
+                onChange={handleItemIdChange}
             />
             <button type="submit">Update Item</button>
         </form>
