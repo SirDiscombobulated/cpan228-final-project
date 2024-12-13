@@ -15,11 +15,11 @@ const AddItemPage = ({ itemId }) => {
         interested: []
     });
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null); // State for success message
 
     // Fetch the item if it's an update
     useEffect(() => {
         if (itemId) {
-
             axios.get(`http://localhost:8080/api/items/${itemId}`, { headers: getAuthHeader() })
                 .then(response => {
                     setItem(response.data);
@@ -53,10 +53,12 @@ const AddItemPage = ({ itemId }) => {
         sendData(endpoint, itemData)
             .then(newId => {
                 console.log('New Item ID:', newId);
-                window.location.href = `/store/items/${newId}`;
+                setSuccess('Item saved successfully!'); // Set success message
+                setError(null); // Clear any previous error message
             })
             .catch(err => {
                 setError('Failed to save item');
+                setSuccess(null); // Clear any previous success message
             });
     };
 
@@ -66,6 +68,7 @@ const AddItemPage = ({ itemId }) => {
             </header>
             <div className="content">
                 {error && <div className="alert alert-danger">{error}</div>}
+                {success && <div className="alert alert-success">{success}</div>} {/* Display success message */}
                 <h1>{item.id ? 'Update Item' : 'Add Item'}</h1>
                 <form onSubmit={handleSubmit}>
                     <input type="hidden" name="id" value={item.id} />

@@ -1,7 +1,7 @@
 // wishlist.js
 import React, { useState, useEffect } from 'react';
 import { getAuthHeader } from '../../auth/auth';
-import './accountStyle/account.css';
+// import './accountStyle/account.css';
 import "./accountStyle/wishlist.css"
 import ItemCard from '../../itemCard';
 
