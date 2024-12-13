@@ -50,14 +50,20 @@ const AddItemPage = ({ itemId }) => {
             ownerId: username
         };
 
-        sendData(endpoint, itemData)
-            .then(newId => {
-                console.log('New Item ID:', newId);
+        axios({
+            method: method,
+            url: endpoint,
+            headers: getAuthHeader(),
+            data: itemData
+        })
+            .then(response => {
+                console.log('New Item ID:', response.data);
                 setSuccess('Item saved successfully!'); // Set success message
                 setError(null); // Clear any previous error message
             })
-            .catch(err => {
-                setError('Failed to save item');
+            .catch(error => {
+                const message = error.response && error.response.data ? error.response.data : 'Failed to save item';
+                setError(message);
                 setSuccess(null); // Clear any previous success message
             });
     };

@@ -1,4 +1,6 @@
-.btn {
+/* itemList.css */
+
+.items-list .btn {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     border: none;
@@ -6,12 +8,12 @@
     cursor: pointer;
 }
 
-.btn-primary {
+.items-list .btn-primary {
     background-color: gray !important;
     color: white !important;
 }
 
-.btn-danger {
+.items-list .btn-danger {
     background-color: red !important;
     color: white !important;
 }
