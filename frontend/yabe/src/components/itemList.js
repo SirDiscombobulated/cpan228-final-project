@@ -1,4 +1,3 @@
-// itemList.js
 import React, { useEffect, useState } from 'react';
 import { fetchData } from './auth/auth';
 import './styling/itemList.css';
@@ -6,8 +5,7 @@ import ItemCard from './itemCard';
 
 const ItemList = ({ url }) => {
     const [items, setItems] = useState([]);
-    const username = localStorage.getItem('username'); // Get current username
-
+    const username = localStorage.getItem('username');
     useEffect(() => {
         fetchData(url)
             .then(data => {
