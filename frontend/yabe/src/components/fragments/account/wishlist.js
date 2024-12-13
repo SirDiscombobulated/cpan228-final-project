@@ -59,7 +59,8 @@ function Wishlist() {
                 {wishlist.length > 0 ? (
                     wishlist.map((item) => (
                         <li key={item._id}>
-                            <strong>{item.title}</strong> - ${item.price.toFixed(2)}
+                            <strong>{item.title || 'Unknown Item'}</strong> - $
+                            {item.price !== undefined ? item.price.toFixed(2) : 'N/A'}
                             <button onClick={() => removeItem(item._id)}>Remove</button>
                         </li>
                     ))
