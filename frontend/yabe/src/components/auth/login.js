@@ -45,15 +45,15 @@ const LoginPage = () => {
 
             if (response.ok) {
                 const isBanned = await checkBanStatus(username);
-                console.log("Is user banned:", isBanned); // Add this log to check ban status
+                console.log("Is user banned:", isBanned);
 
                 if (isBanned) {
                     console.log('Redirecting to banned page...');
                     setError(true);
                     setMessage('User is banned. Redirecting to banned page...');
                     setTimeout(() => {
-                        navigate('/banned'); // Correct route for banned page
-                        window.location.reload(); // Refresh the page
+                        navigate('/banned');
+                        window.location.reload();
                     }, 500);
                     return;
                 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getAuthHeader } from '../../auth/auth';
 import './accountStyle/account.css';
 
@@ -48,6 +49,9 @@ function AccountInfo() {
     return (
         <div className="profile-page">
             <div className="profile-card">
+                <div className="breadcrumb">
+                    <Link to="/account" className="breadcrumb-link">Your Account</Link> › Account Info
+                </div>
                 <h1>{userData.firstName} {userData.lastName}</h1>
                 <p><strong>Username:</strong> {userData.username}</p>
                 <p><strong>Role:</strong> {userData.role}</p>

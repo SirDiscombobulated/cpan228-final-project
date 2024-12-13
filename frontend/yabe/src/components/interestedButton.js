@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const InterestedButton = ({ isInterested, username, itemId }) => {
     const [interested, setInterested] = useState(isInterested);
 
+    // Function to allow user to add item to interested/wishlist
     const toggleInterest = async () => {
         const url = `http://localhost:8080/api/wishlist/${interested ? 'remove' : 'add'}/${username}/${itemId}`;
         const method = 'PUT';

@@ -5,6 +5,7 @@ import './accountStyle/account.css';
 import "./accountStyle/wishlist.css"
 import ItemCard from '../../itemCard';
 
+
 function Wishlist() {
     const [wishlistItems, setWishlistItems] = useState([]);
     const [error, setError] = useState(false);

@@ -19,7 +19,7 @@ const AddItemPage = ({ itemId }) => {
     // Fetch the item if it's an update
     useEffect(() => {
         if (itemId) {
-            // Assuming there's an API endpoint to fetch the item by id
+
             axios.get(`http://localhost:8080/api/items/${itemId}`, { headers: getAuthHeader() })
                 .then(response => {
                     setItem(response.data);
@@ -52,8 +52,8 @@ const AddItemPage = ({ itemId }) => {
 
         sendData(endpoint, itemData)
             .then(newId => {
-                console.log('New Item ID:', newId); // You can remove this after testing
-                window.location.href = `/store/items/${newId}`; // Redirect to the item details page or wherever needed
+                console.log('New Item ID:', newId);
+                window.location.href = `/store/items/${newId}`;
             })
             .catch(err => {
                 setError('Failed to save item');
@@ -63,7 +63,6 @@ const AddItemPage = ({ itemId }) => {
     return (
         <main>
             <header>
-                {/* Include your header component here */}
             </header>
             <div className="content">
                 {error && <div className="alert alert-danger">{error}</div>}

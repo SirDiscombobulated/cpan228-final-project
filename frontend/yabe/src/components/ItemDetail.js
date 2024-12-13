@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const ItemDetail = () => {
-    const { id } = useParams(); // Ensure this is correctly pulling the 'id' from the route
+    const { id } = useParams();
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,7 +20,7 @@ const ItemDetail = () => {
                 setLoading(true);
                 const response = await axios.get(`http://localhost:8080/api/items/${id}`, {
                     headers: {
-                        "Authorization": "Basic " + btoa("admin:12345"), // Add your credentials here
+                        "Authorization": "Basic " + btoa("admin:12345"),
                         "Content-Type": "application/json",
                     },
                 });

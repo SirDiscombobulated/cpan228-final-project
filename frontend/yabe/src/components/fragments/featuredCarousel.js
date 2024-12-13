@@ -20,6 +20,7 @@ const FeaturedCarousel = () => {
         setItems(data);
     }, []);
 
+    // Interval for automated carousel image swap
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
