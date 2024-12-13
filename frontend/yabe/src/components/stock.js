@@ -13,6 +13,7 @@ const StockPage = ({ searchQuery }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+    const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
     const username = localStorage.getItem("username");
 
     const fetchItems = async (query = "") => {
@@ -23,7 +24,7 @@ const StockPage = ({ searchQuery }) => {
                 : "http://localhost:8080/api/items";
             const response = await fetch(url, {
                 method: "GET",
-                headers: getAuthHeader(), // Use the getAuthHeader function
+                headers: getAuthHeader(),
             });
             if (!response.ok) {
                 throw new Error(`Failed to fetch items. Status: ${response.status}`);
@@ -39,9 +40,15 @@ const StockPage = ({ searchQuery }) => {
         }
     };
 
-    // Fetch items whenever the search query changes
     useEffect(() => {
-        fetchItems(searchQuery);
+        setCurrentPage(1); // Reset pagination on search
+        fetchItems(localSearchQuery);
+    }, [localSearchQuery]);
+
+    useEffect(() => {
+        if (searchQuery !== localSearchQuery) {
+            setLocalSearchQuery(searchQuery);
+        }
     }, [searchQuery]);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -89,6 +96,12 @@ const StockPage = ({ searchQuery }) => {
     return (
         <div>
             <h1>Stock Items</h1>
+            {searchQuery && (
+                <p>
+                    Showing results for: <strong>{searchQuery}</strong>
+                </p>
+            )}
+            {items.length === 0 && !loading && <p>No items found matching your search.</p>}
             <table>
                 <thead>
                 <tr>
@@ -131,7 +144,9 @@ const StockPage = ({ searchQuery }) => {
                 ))}
                 </tbody>
             </table>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+            {items.length > 0 && (
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+            )}
         </div>
     );
 };
