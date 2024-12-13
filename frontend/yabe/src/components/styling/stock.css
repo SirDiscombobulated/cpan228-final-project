@@ -72,7 +72,3 @@ th:hover {
     font-size: 1.2rem;
     color: #7e7441; /* Text color for loading and error messages */
 }
-h1{
-    text-align: center;
-    text-decoration: underline;
-}
