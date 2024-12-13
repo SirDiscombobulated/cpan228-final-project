@@ -9,8 +9,8 @@ const AdminPage = () => {
                 <h1>Admin Panel</h1>
                 <nav style={{ width: '100%', padding: '20px', borderRight: 'none' }}>
                     <ul>
-                        <li><Link to="admin/modify-users">Modify Users</Link></li>
-                        <li><Link to="admin/modify-items">Modify Items</Link></li>
+                        <li><Link to="/modify-users">Modify Users</Link></li>
+                        <li><Link to="/modify-items">Modify Items</Link></li>
                     </ul>
                 </nav>
             </div>
