@@ -95,7 +95,7 @@ const StockPage = ({ searchQuery }) => {
 
     return (
         <div >
-            <h1>Stock Items</h1>
+            <h1 className="stockheader">Stock Items</h1>
             {searchQuery && (
                 <p>
                     Showing results for: <strong>{searchQuery}</strong>
