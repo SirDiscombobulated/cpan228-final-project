@@ -23,7 +23,7 @@ const StockPage = ({ searchQuery }) => {
                 : "http://localhost:8080/api/items";
             const response = await fetch(url, {
                 method: "GET",
-                headers: getAuthHeader(),
+                headers: getAuthHeader(), // Use the getAuthHeader function
             });
             if (!response.ok) {
                 throw new Error(`Failed to fetch items. Status: ${response.status}`);
@@ -39,6 +39,7 @@ const StockPage = ({ searchQuery }) => {
         }
     };
 
+    // Fetch items whenever the search query changes
     useEffect(() => {
         fetchItems(searchQuery);
     }, [searchQuery]);

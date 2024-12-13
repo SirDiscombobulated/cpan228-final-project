@@ -25,7 +25,7 @@ const RegisterPage = () => {
             bio: bio,
             wishlist: []
         };
-
+        // Registration
         try {
             const response = await fetch('http://localhost:8080/register', {
                 method: 'POST',
@@ -46,6 +46,7 @@ const RegisterPage = () => {
         }
     };
 
+    // Registration form
     return (
         <div className="register-container">
             <div className="register-form">
