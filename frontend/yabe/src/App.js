@@ -51,7 +51,7 @@ const App = () => {
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/item-postings" element={<Wishlist />}/>
                     <Route path="/admin/admin-panel" element={<AdminPage/>}/>
-
+                    <Route path="/"></Route>
                 </Routes>
             </main>
             <Footer />

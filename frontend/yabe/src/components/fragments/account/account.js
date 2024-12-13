@@ -65,7 +65,7 @@ const AccountPage = () => {
                             <button className="account-button">Wishlist</button>
                         </Link>
                         {user.role === 'ADMIN' && (
-                            <Link to="/admin" className="account-link">
+                            <Link to="/admin/admin-panel" className="account-link">
                                 <button className="account-button">Admin Settings</button>
                             </Link>
                         )}
