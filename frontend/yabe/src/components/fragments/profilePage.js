@@ -16,7 +16,7 @@ function ProfilePage() {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/users/${userId}`, {
+                const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
                     method: 'GET',
                     headers: authHeader,
                 });

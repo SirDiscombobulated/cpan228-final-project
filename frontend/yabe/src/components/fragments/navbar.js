@@ -9,7 +9,6 @@ const Header = () => {
                     <Link className="nav-link" to="/store/stock">Stock</Link>
                     <Link className="nav-link" to="/store/admin/">Admin</Link>
                     <Link className="nav-link" to="/store/admin/add-item">Add Items</Link>
-                    <Link className="nav-link" to="/store/sweepstakes">Sweepstakes</Link>
                 </div>
             </div>
         </nav>

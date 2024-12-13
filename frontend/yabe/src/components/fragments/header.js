@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./fragmentsStyle/header.css";
-import yabeTLogo from "./yabet.png";
+import yabeTLogo from "./fragmentsImages/yabet.png";
 
 const Header = ({ handleSearch }) => {
     const [searchQuery, setSearchQuery] = useState("");

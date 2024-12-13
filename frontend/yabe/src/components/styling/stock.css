@@ -1,0 +1,74 @@
+/* Additional styles for stock.js */
+
+/* Table styles */
+table {
+    width: auto; /* Set to auto instead of 100% */
+    text-align: left;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #ffffff; /* White background */
+    color: #5c5530; /* Text color */
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #dddddd;
+}
+
+th {
+    background-color: #7e7441; /* Header background */
+    color: white; /* Header text color */
+    cursor: pointer;
+}
+
+th:hover {
+    background-color: #5ca03a; /* Hover color */
+}
+
+.stock-item-link {
+    color: #5c5530; /* Link color */
+    font-weight: bold;
+}
+
+.stock-item-link:hover {
+    color: #74bf4e; /* Hover link color */
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+    background-color: #5ca03a; /* Button color */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+.pagination button:hover {
+    background-color: #74bf4e; /* Hover button color */
+}
+
+.pagination .active {
+    background-color: #74bf4e; /* Active button color */
+}
+
+.pagination .disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Loading and error styles */
+.loading, .error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7e7441; /* Text color for loading and error messages */
+}

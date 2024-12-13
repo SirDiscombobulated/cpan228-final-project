@@ -42,21 +42,16 @@ public class ItemService {
     }
 
     // update an item
-    public void updateItem(String itemId, Item item) {
-        boolean dishExists = itemRepository.existsById(itemId);
-        if (!dishExists) {
-            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Update failed!");
+    public int updateItem(String username, String itemId, Item item) {
+        Item updatedItem = itemRepository.findById(itemId).orElse(null);
+        if (updatedItem == null) {
+            return -1;
+        } else if (!updatedItem.getOwnerId().equals(username)) {
+            return -2;
         }
         item.setId(itemId);
         itemRepository.save(item);
-    }
-
-    // delete an item by ID
-    public void deleteById(String itemId) {
-        if(!itemRepository.existsById(itemId)) {
-            throw new IllegalStateException("Item with " + itemId + " doesn't exists! Delete failed!");
-        }
-        itemRepository.deleteById(itemId);
+        return 1;
     }
 
     //find by status and title

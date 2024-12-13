@@ -1,4 +1,3 @@
-// app-item.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAuthHeader, sendData } from './auth/auth';
@@ -21,7 +20,7 @@ const AddItemPage = ({ itemId }) => {
     useEffect(() => {
         if (itemId) {
             // Assuming there's an API endpoint to fetch the item by id
-            axios.get(`http://localhost:8080/store/api/items/${itemId}`, { headers: getAuthHeader() })
+            axios.get(`http://localhost:8080/api/items/${itemId}`, { headers: getAuthHeader() })
                 .then(response => {
                     setItem(response.data);
                 })
@@ -41,7 +40,7 @@ const AddItemPage = ({ itemId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const endpoint = item.id ? `http://localhost:8080/store/api/items/${item.id}` : 'http://localhost:8080/store/api/items';
+        const endpoint = item.id ? `http://localhost:8080/api/items/${item.id}` : 'http://localhost:8080/api/items';
         const method = item.id ? 'PUT' : 'POST';
         const username = localStorage.getItem('username'); // Get the username from localStorage
 
