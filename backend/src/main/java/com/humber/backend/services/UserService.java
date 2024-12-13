@@ -31,7 +31,7 @@ public class UserService {
 
     //get all users from repo
     public List<MyUser> getUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllByRoleIsNotContainingIgnoreCase("ADMIN");
     }
 
     //get an user by username
