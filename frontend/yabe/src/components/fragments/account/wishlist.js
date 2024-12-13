@@ -5,7 +5,6 @@ import './accountStyle/account.css';
 import "./accountStyle/wishlist.css"
 import ItemCard from '../../itemCard';
 
-
 function Wishlist() {
     const [wishlistItems, setWishlistItems] = useState([]);
     const [error, setError] = useState(false);
@@ -31,9 +30,7 @@ function Wishlist() {
                     const items = await Promise.all(userData.wishlist.map(async (itemId) => {
                         const itemResponse = await fetch(`http://localhost:8080/api/items/${itemId}`, {
                             method: 'GET',
-                            headers: {
-                                'Authorization': 'Basic ' + btoa('test_example:12345')
-                            }
+                            headers: authHeader, // Ensure correct headers are used
                         });
 
                         if (itemResponse.ok) {
