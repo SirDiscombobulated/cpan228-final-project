@@ -124,11 +124,7 @@ const StockPage = ({ searchQuery }) => {
                 <tbody>
                 {currentItems.map((item) => (
                     <tr key={item._id}>
-                        <td>
-                            <Link to={`/item/${item._id}`} className="stock-item-link">
-                                {item.title || "N/A"}
-                            </Link>
-                        </td>
+                        <td>{item.title || "N/A"}</td>
                         <td>{item.category || "N/A"}</td>
                         <td>${item.price ? item.price.toFixed(2) : "0.00"}</td>
                         <td>{item.description || "No description available"}</td>
